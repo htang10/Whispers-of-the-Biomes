@@ -18,17 +18,23 @@ This helps others know who made each change.
 
 Clone the Project
 
-`git clone https://github.com/htang10/Whispers-Of-The-Biomes.git`
+```
+git clone https://github.com/htang10/Whispers-Of-The-Biomes.git
+```
 
 Now open the folder in VS Code.
 
 Go into the cloned folder.
 
-`cd whispers-of-the-biomes`
+```
+cd whispers-of-the-biomes
+```
 
 Then check if your local repo is linked to GitHub.
 
-`git remote -v`
+```
+git remote -v
+```
 
 You should see something like:
 
@@ -39,19 +45,27 @@ origin  https://github.com/htang10/Whispers-Of-The-Biomes.git (push)
 
 If you don’t see this, add the remote manually.
 
-`git remote add origin https://github.com/htang10/Whispers-Of-The-Biomes.git`
+```
+git remote add origin https://github.com/htang10/Whispers-Of-The-Biomes.git
+```
 
 Fetch all remote branches to make sure your local copy matches GitHub.
 
-`git fetch --all`
+```
+git fetch --all
+```
 
 Create the local `dev` branch to sync changes from the remote `dev`.
 
-`git checkout -b dev origin/dev`
+```
+git checkout -b dev origin/dev
+```
 
 Then check available branches.
 
-`git branch -a`
+```
+git branch -a
+```
 
 You should see:
 
@@ -92,11 +106,15 @@ git pull
 
 Then create your feature branch:
 
-`git checkout -b feature/your-branch-name`
+```
+git checkout -b feature/your-branch-name
+```
 
 Example:
 
-`git checkout -b feature/intro-scene`
+```
+git checkout -b feature/intro-scene
+```
 
 You’ll now be working only on this branch.
 
@@ -106,21 +124,29 @@ After you make some edits:
 
 1. Check what changed:
 
-`git status`
+```
+git status
+```
 
 2. Add all modified files:
 
-`git add .`
+```
+git add .
+```
 
 3. Commit your changes with a message:
 
-`git commit -m "Added new animation to the intro scence."`
+```
+git commit -m "Added new animation to the intro scence."
+```
 
 This will add the new changes to your local repo.
 
 4. Push your changes to your branch:
 
-`git push origin feature/forest-scene`
+```
+git push origin feature/forest-scene
+```
 
 This will add the new changes to the remote repo, where our team is working together,
 and other team membes can see the new changes inside that branch.
