@@ -108,11 +108,9 @@ After you make some edits:
 
 `git status`
 
-
 2. Add all modified files:
 
 `git add .`
-
 
 3. Commit your changes with a message:
 
@@ -157,7 +155,33 @@ git checkout -b fix/audio-loop
 
 Make changes → commit → push → open PR to `dev`.
 
-# 7. Extra Learning
+# 7. Some Useful Commands to Learn
+
+| **Action**              | **Description (what / why / when)**                                                                       | **Command**                                                                                     |
+| ----------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Configure identity      | Sets your name/email for commit authorship. Do this once per machine (or per repo with `--local`).        | `git config --global user.name "Your Name"`<br>`git config --global user.email you@example.com` |
+| Initialize repo         | Start tracking the current folder with Git. Add a `.gitignore` before your first commit to avoid junk.    | `git init`                                                                                      |
+| Clone repo              | Copies a remote repo to your machine (full history). Use when joining an existing project.                | `git clone <repo_link>`                                                                         |
+| Add remote              | Links a local repo to a remote (usually `origin`). Use if you `git init` first, or to add another remote. | `git remote add origin <repo_link>`                                                             |
+| Check remotes           | Shows remotes and URLs. Useful for verifying SSH vs HTTPS or multiple remotes (e.g., `upstream`).         | `git remote -v`                                                                                 |
+| Set/Change remote URL   | Fixes a wrong/expired remote URL without re-adding it.                                                    | `git remote set-url origin <new_repo_link>`                                                     |
+| Fetch updates           | Downloads new branches/commits **without** touching your working files. Safe preview before merging.      | `git fetch`                                                                                     |
+| View branches (all)     | Lists local and remote branches. Great for discovering team branches.                                     | `git branch -a`                                                                                 |
+| Create & switch branch  | Start focused work without touching `main`. Keeps PRs small and reviewable.                               | `git checkout -b <branch>` **or** `git switch -c <branch>`                                      |
+| Switch branch           | Move to a different branch (already created). Use when reviewing or continuing work.                                        | `git checkout <branch>` **or** `git switch <branch>`                                            |
+| Track upstream branch   | Connect your local branch to a remote branch so `git pull/push` know where to go.                         | `git push -u origin <branch>`                                                                   |
+| Pull updates (merge)    | Fetches then merges remote changes into your current branch. Simple, can create merge commits.            | `git pull`                                                                                      |
+| Pull (rebase)           | Keeps history linear by replaying your commits on top of latest remote. Preferred for clean history.      | `git pull --rebase`                                                                             |
+| Check status            | Shows what’s modified, staged, or untracked. Your go-to command before commits.                           | `git status`                                                                                    |
+| Stage changes           | Add files to the next commit. Use `-p` to interactively pick hunks for cleaner commits.                   | `git add .` / `git add <file>` / `git add -p`                                                   |
+| Unstage changes         | Remove files from staging (keeps modifications). Handy when you staged too much.                          | `git restore --staged <file>`                                                                   |
+| See what changed        | Diff unstaged vs staged vs HEAD. Great for reviewing before commit.                                       | `git diff` / `git diff --staged`                                                                |
+| Commit                  | Snapshot staged changes with a clear, imperative message (e.g., “Add login API”).                         | `git commit -m "message"`                                                                       |
+| Amend last commit       | Fix last commit message or add forgotten files **before pushing**.                                        | `git commit --amend` (optionally after `git add <file>`)                                        |
+| Push changes            | Uploads your commits to the remote branch. First time: use `-u` to set upstream.                          | `git push` / `git push -u origin <branch>`                                                      |
+| Merge a branch          | Combine another branch into your current branch. Creates a merge commit (keeps full history).             | `git merge <branch>`                                                                            |
+
+# 8. Extra Learning
 
 If you want a visual explanation of Git basics, check out the video below:
 
