@@ -1,0 +1,298 @@
+/* =========================================================
+   File: home.css
+   Purpose: Home page styling (intro scene, Earth canvas,
+            biome buttons, and transitions)
+   Project: Whispers of the Biomes
+   Author: Group 12
+   Last Updated: Oct 2025
+   ========================================================= */
+
+/* =========================================================
+   1. ROOT VARIABLES
+   ---------------------------------------------------------
+   Timing, colors, and emoji representations for each biome
+   ========================================================= */
+:root {
+    /* --- Font & Typography --- */
+    --font-size-intro: 3rem;
+    --font-size-button: 2.5rem;
+    
+    /* --- Layout dimensions --- */
+    --button-width: 10rem;
+    --button-height: 5rem;
+    --button-radius: 1.25rem;
+    --slider-gap: 1rem;
+    --intro-text-margin: 0 max(0.625rem, 10%);
+    --prev-offset-x: max(-2em, -20vw);
+    --next-offset-x: min(2em, 20vw);
+    --button-scale-inactive: 0.8;
+    
+    /* --- Biome Themes (Color & Emoji) --- */
+    --forest-color-bg: forestgreen;
+    --forest-emoji: '🌳';
+    --mesa-color-bg: rgb(188, 161, 119);
+    --mesa-emoji: '🏜️';
+    --caldera-color-bg: rgb(229,101,32);
+    --caldera-emoji: '🌋';
+    --marine-color-bg: #356095;
+    --marine-emoji: '🪼';
+    --tundra-color-bg: rgb(135,142,205);
+    --tundra-emoji: '🗻';
+    
+    /* --- Timing & Animation control --- */
+    --intro-animation-duration: 4s;
+    --intro-transition-duration: 1s;
+    --earth-transition-duration: 4s;
+    --item-transition-duration: 0.75s;
+    --hover-transition-duration: 1s;
+    --enter-animation-duration: 1.5s;
+    --enter-animation-delay: 0.3s;
+}
+
+/* =========================================================
+   2. INTRODUCTION SCENE
+   ========================================================= */
+/* ? Is there a way to further improve the intro scence rather than just having plain text? */
+
+/* ---------- Layout & Text ---------- */
+#intro {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-bg);
+    opacity: 1;
+    transition: opacity var(--earth-transition-duration) ease-out;
+}
+
+/* Fades the intro screen before revealing the 3D Earth.
+   Triggered by JS once intro text animation finishes */
+#intro.fade-out {
+    opacity: 0;
+}
+
+/* ---------- Text Lines ---------- */
+.line {
+    position: absolute;
+    inset: auto 0;
+    margin: var(--intro-text-margin);
+    font-size: var(--font-size-intro);
+    text-align: center;
+    opacity: 0;
+    animation: fadeInOut var(--intro-animation-duration) ease-in-out var(--intro-transition-duration) forwards;
+}
+
+/* Second line appears after the first */
+.line:nth-child(2) {
+    animation-delay: calc(var(--intro-animation-duration) + var(--intro-transition-duration));
+}
+
+/* =========================================================
+   3. EARTH CANVAS
+   ========================================================= */
+canvas {
+    display: block;
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+/* =========================================================
+   4. BIOME BUTTON SLIDER
+   ========================================================= */
+
+/* ---------- Layout ---------- */
+.slider {
+    position: absolute;
+    bottom: 25vh;
+    display: flex;
+    gap: var(--slider-gap);
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+}
+
+/* ---------- Base Button Style ---------- */
+.item {
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: var(--button-width);
+    height: var(--button-height);
+    font-size: var(--font-size-button);
+    border-radius: var(--button-radius);
+}
+
+/* ---------- Active Button ---------- */
+.active {
+    z-index: 1;
+    display: flex;
+    overflow: hidden;
+    color: transparent;
+    transition:
+        all var(--item-transition-duration) ease-in,
+        color 0s ease;
+    cursor: pointer;
+}
+
+/* '::before' shows the biome name, '::after' shows the emoji.
+   On hover, name slides up and emoji slides in for a reveal effect.
+   Biome name and emoji are unique for each biome */
+.active::before {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-text);
+    transition: all var(--hover-transition-duration) ease-out;
+}
+
+.active::after {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: initial;
+    transition: all var(--hover-transition-duration) ease-out;
+    transform: translateY(4em);
+}
+
+/* Applies hover animation only on devices that support real cursor hover (e.g., desktop).
+   Prevents hover from getting stuck on touchscreens. */
+@media (hover: hover) and (pointer: fine) {
+  .active:hover::before {
+    transform: translateY(-4em);
+  }
+  .active:hover::after {
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Neighbor Buttons ---------- */
+
+/* Positions neighbor biome buttons beside the active one.
+   JS dynamically swaps 'prev' and 'next' classes to update slider order */
+.prev, .next {
+    z-index: 0;
+    display: flex;
+    opacity: 0.5;
+    transition: all var(--item-transition-duration) ease-out;
+    cursor: default;
+}
+
+.prev {
+    transform: translateX(var(--prev-offset-x)) scale(var(--button-scale-inactive));
+}
+
+.next {
+    transform: translateX(var(--next-offset-x)) scale(var(--button-scale-inactive));
+}
+
+/* Adds fade-in effect when a new biome button appears.
+   JS dynamically toggles this class to make transitions smoother */
+.animate-enter {
+    animation: enter var(--enter-animation-duration) ease backwards;
+    animation-delay: var(--enter-animation-delay);
+}
+
+/* Disables hover transition briefly during biome switch 
+   to prevent flickering while elements update */
+.no-transition::before,
+.no-transition::after {
+    transition: none;
+}
+
+/* =========================================================
+   5. BIOME-SPECIFIC STYLES
+   ========================================================= */
+
+/* ---------- Forest ---------- */
+#forest {
+    background-color: var(--forest-color-bg);
+}
+
+#forest.active::before {
+    content: "Forest";
+}
+
+#forest.active::after {
+    content: var(--forest-emoji);
+}
+
+/* ---------- Mesa ---------- */
+#mesa {
+    background-color: var(--mesa-color-bg);
+}
+
+#mesa.active::before {
+    content: "Mesa";
+}
+
+#mesa.active::after {
+    content: var(--mesa-emoji);
+}
+
+/* ---------- Caldera ---------- */
+#caldera {
+    background-color: var(--caldera-color-bg);
+}
+
+#caldera.active::before {
+    content: "Caldera";
+}
+
+#caldera.active::after {
+    content: var(--caldera-emoji);
+}
+
+/* ---------- Marine ---------- */
+#marine {
+    background-color: var(--marine-color-bg);
+}
+
+#marine.active::before {
+    content: "Marine";
+}
+
+#marine.active::after {
+    content: var(--marine-emoji);
+}
+
+/* ---------- Tundra ---------- */
+#tundra {
+    background-color: var(--tundra-color-bg);
+}
+
+#tundra.active::before {
+    content: "Tundra";
+}
+
+#tundra.active::after {
+    content: var(--tundra-emoji);
+}
+
+/* =========================================================
+   6. ANIMATIONS
+   ========================================================= */
+
+/* ---------- Entry animation for previous/next buttons ---------- */
+@keyframes enter {
+    0% {opacity: 0;}
+    70% {opacity: 0.5;}
+}
+
+/* ---------- Fading animation for intro scene ---------- */
+@keyframes fadeInOut {
+    0% {opacity: 0;}
+    40% {opacity: 1;}
+    70% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+/* ===== END OF FILE ===== */
