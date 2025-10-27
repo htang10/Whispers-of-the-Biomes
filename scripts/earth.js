@@ -1,69 +1,143 @@
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+/**
+ * ======================================================
+ *  earth.js — 3D Earth Rendering for Whispers of the Biomes
+ * ======================================================
+ * Handles:
+ *  1. Scene setup using Three.js (camera, renderer, lighting)
+ *  2. Earth model creation with realistic surface, lights, clouds, and glow
+ *  3. Background starfield for immersive environment
+ *  4. Continuous Earth rotation and responsive resizing
+ * ------------------------------------------------------
+ * Dependencies:
+ *  - three.js
+ *  - OrbitControls (camera interaction)
+ *  - getStarfield.js (generates background stars)
+ *  - getFresnelMat.js (adds outer atmospheric glow)
+ * ======================================================
+ */
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({
-  canvas: document.getElementById("earth"),
-  antialias: true 
-});
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.setZ(8);
-camera.position.setY(-0.5);
+// === Imports ===
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import getStarfield from "./external/getStarfield.js";
+import { getFresnelMat } from "./external/getFresnelMat.js";
 
-const controls = new OrbitControls(camera, renderer.domElement);
+// === Constants ===
+const ROTATION_SPEED = 0.0009; // Earth rotation speed (radians per frame)
 
-// === EARTH === 
-const textureLoader = new THREE.TextureLoader();
-const earthTexture = textureLoader.load(
-  "https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg"
-);
+/**
+ * ======================================================
+ *  main() — Initializes and runs the 3D Earth scene
+ * ======================================================
+ * Steps:
+ *  1. Create scene, camera, and renderer
+ *  2. Load textures and construct layered Earth model
+ *  3. Add ambient stars and directional light (sun)
+ *  4. Start continuous rotation animation loop
+ *  5. Adjust rendering on window resize
+ */
+function main() {
+  // ===== Canvas & Camera Setup =====
+  const canvas = document.querySelector("#earth");
+  const fov = 75; // Field of view in degrees
+  const aspect = window.innerWidth / window.innerHeight;
+  const near = 0.1; // Minimum render distance
+  const far = 1000; // Maximum render distance
 
-const earthGeometry = new THREE.SphereGeometry(2, 100, 100);
-const earthMaterial = new THREE.MeshStandardMaterial({
-  map: earthTexture,
-});
-const earth = new THREE.Mesh(earthGeometry, earthMaterial);
-scene.add(earth);
+  const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: true,
+  });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
 
-// // === Add background stars ===
-// const starGeometry = new THREE.BufferGeometry();
-// const starCount = 8000;
-// const starVertices = [];
+  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+  camera.position.setZ(5); // Pull camera back to view full Earth
 
-// for (let i = 0; i < starCount; i++) {
-//   const x = (Math.random() - 0.5) * 2000;
-//   const y = (Math.random() - 0.5) * 2000;
-//   const z = (Math.random() - 0.5) * 2000;
-//   starVertices.push(x, y, z);
-// }
+  const scene = new THREE.Scene();
+  const controls = new OrbitControls(camera, renderer.domElement);
 
-// starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-// const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.7 });
-// const stars = new THREE.Points(starGeometry, starMaterial);
-// scene.add(stars);
+  // ===== Earth Group =====
+  const earthGroup = new THREE.Group();
+  earthGroup.rotation.z = (-23.4 * Math.PI) / 180; // Tilt to match Earth’s axial tilt
 
-// === Add lights ===
-const ambientLight = new THREE.AmbientLight(0x404040, 2); // soft light everywhere
-scene.add(ambientLight);
+  // ===== Texture Loading =====
+  const loader = new THREE.TextureLoader();
+  const earthMap = loader.load("/assets/earthmap1k.jpg"); // Diffuse color map
+  const earthSpec = loader.load("/assets/earthspec1k.jpg"); // Specular highlights (oceans)
+  const earthBump = loader.load("/assets/earthbump1k.jpg"); // Terrain elevation
+  const lightsTexture = loader.load("/assets/earthlights1k.jpg"); // Night city lights
+  const cloudsTexture = loader.load("/assets/earthcloudmap.jpg"); // Cloud layer
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-directionalLight.position.set(5, 3, 5);
-scene.add(directionalLight);
+  // ===== Base Earth Mesh =====
+  const earthGeometry = new THREE.SphereGeometry(2, 100, 100);
+  const earthMaterial = new THREE.MeshPhongMaterial({
+    map: earthMap,
+    specularMap: earthSpec,
+    bumpMap: earthBump,
+    bumpScale: 0.04,
+  });
+  const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
+  earthGroup.add(earthMesh);
 
-function animate() {
-  requestAnimationFrame(animate);
-  earth.rotation.y += 0.003; // rotation speed
-  controls.update();
-  renderer.render(scene, camera);
+  // ===== City Lights Layer =====
+  const lightsMaterial = new THREE.MeshBasicMaterial({
+    map: lightsTexture,
+    blending: THREE.AdditiveBlending,
+  });
+  const lightsMesh = new THREE.Mesh(earthGeometry, lightsMaterial);
+  earthGroup.add(lightsMesh);
+
+  // ===== Cloud Layer =====
+  const cloudsMaterial = new THREE.MeshStandardMaterial({
+    map: cloudsTexture,
+    blending: THREE.AdditiveBlending,
+  });
+  const cloudsMesh = new THREE.Mesh(earthGeometry, cloudsMaterial);
+  cloudsMesh.scale.setScalar(1.003); // Slightly larger to sit above the surface
+  earthGroup.add(cloudsMesh);
+
+  // ===== Atmospheric Glow (Fresnel Effect) =====
+  const fresnelMat = getFresnelMat();
+  const glowMesh = new THREE.Mesh(earthGeometry, fresnelMat);
+  glowMesh.scale.setScalar(1.01); // Slightly larger for outer glow
+  earthGroup.add(glowMesh);
+
+  // Add everything to the scene
+  scene.add(earthGroup);
+
+  // ===== Background Stars =====
+  const stars = getStarfield({ numStars: 5000 });
+  scene.add(stars);
+
+  // ===== Lighting Setup =====
+  const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
+  sunLight.position.set(-2, 0.5, 1.5);
+  scene.add(sunLight);
+
+  // ===== Animation Loop =====
+  function animate() {
+    requestAnimationFrame(animate);
+    earthMesh.rotation.y += ROTATION_SPEED;
+    lightsMesh.rotation.y += ROTATION_SPEED;
+    cloudsMesh.rotation.y += ROTATION_SPEED * 1.5;
+    glowMesh.rotation.y += ROTATION_SPEED;
+    stars.rotation.y -= ROTATION_SPEED; // Opposite rotation for parallax depth
+    controls.update();
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  // ===== Responsive Resize Handling =====
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
 }
 
-animate();
-
-// === Handle window resize ===
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
+// Initialize the Earth scene
+main();
