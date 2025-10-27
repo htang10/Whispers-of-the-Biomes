@@ -65,11 +65,11 @@ function main() {
 
   // ===== Texture Loading =====
   const loader = new THREE.TextureLoader();
-  const earthMap = loader.load("../assets/earthmap1k.jpg"); // Diffuse color map
-  const earthSpec = loader.load("../assets/earthspec1k.jpg"); // Specular highlights (oceans)
-  const earthBump = loader.load("../assets/earthbump1k.jpg"); // Terrain elevation
-  const lightsTexture = loader.load("../assets/earthlights1k.jpg"); // Night city lights
-  const cloudsTexture = loader.load("../assets/earthcloudmap.jpg"); // Cloud layer
+  const earthMap = loader.load("assets/earthmap1k.jpg"); // Diffuse color map
+  const earthSpec = loader.load("assets/earthspec1k.jpg"); // Specular highlights (oceans)
+  const earthBump = loader.load("assets/earthbump1k.jpg"); // Terrain elevation
+  const lightsTexture = loader.load("assets/earthlights1k.jpg"); // Night city lights
+  const cloudsTexture = loader.load("assets/earthcloudmap.jpg"); // Cloud layer
 
   // ===== Base Earth Mesh =====
   const earthGeometry = new THREE.SphereGeometry(2, 100, 100);
