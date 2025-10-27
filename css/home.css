@@ -26,7 +26,12 @@
     --prev-offset-x: max(-2em, -20vw);
     --next-offset-x: min(2em, 20vw);
     --button-scale-inactive: 0.8;
-    
+
+    /* --- Main Styling --- */
+    --text-shadow-color: rgba(255,255,255,0.6);
+    --border-color: rgba(255, 255, 255, 0.2);
+    --box-shawdow-color: rgba(255, 255, 255, 0.2);
+
     /* --- Biome Themes (Color & Emoji) --- */
     --forest-color-bg: forestgreen;
     --forest-emoji: '🌳';
@@ -122,7 +127,10 @@ canvas {
     width: var(--button-width);
     height: var(--button-height);
     font-size: var(--font-size-button);
+    text-shadow: 0 0 0.5rem var(--text-shadow-color);
+    border: 5px solid var(--border-color);
     border-radius: var(--button-radius);
+    box-shadow: inset 0 0.1rem 0.25rem var(--box-shawdow-color);
 }
 
 /* ---------- Active Button ---------- */
@@ -130,17 +138,15 @@ canvas {
     z-index: 1;
     display: flex;
     overflow: hidden;
-    color: transparent;
-    transition:
-        all var(--item-transition-duration) ease-in,
-        color 0s ease;
+    transition: all var(--item-transition-duration) ease-in;
     cursor: pointer;
 }
 
 /* '::before' shows the biome name, '::after' shows the emoji.
    On hover, name slides up and emoji slides in for a reveal effect.
    Biome name and emoji are unique for each biome */
-.active::before {
+.active::before,
+.active::after {
     position: absolute;
     inset: 0;
     z-index: 2;
@@ -152,14 +158,6 @@ canvas {
 }
 
 .active::after {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: initial;
-    transition: all var(--hover-transition-duration) ease-out;
     transform: translateY(4em);
 }
 
