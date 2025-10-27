@@ -60,6 +60,7 @@ function initBiomeControls() {
   const buttonGroup = document.querySelector("#biomes");
   const biomes = Array.from(buttonGroup.children); // All biome buttons
   let idx = 0; // Start from the first biome
+  let content;
 
   // Initial element references
   let prev = biomes.at(-1); // last biome (wrap-around)
@@ -77,6 +78,25 @@ function initBiomeControls() {
       buttonGroup.style.pointerEvents = "auto";
       current.classList.remove("no-transition");
     }, UI_LOCKED_DURATION);
+  }
+
+  /**
+   * Hides the text of the current active biome to improve UI appearance.
+   * Using empty text instead of transparent color prevents users from 
+   * accidentally seeing or selecting hidden text, especially on mobile.
+   */
+  function hideContent() {
+    const active = document.querySelector('.active');
+    content = active.textContent;
+    active.textContent = "";
+  }
+
+  /**
+   * Restores the hidden text of a previously active biome after transition.
+   * @param {HTMLElement} element - The biome element to restore text to.
+   */
+  function restoreContent(element) {
+    element.textContent = content;
   }
 
   /**
@@ -134,6 +154,7 @@ function initBiomeControls() {
       console.log("hello");
     });
     current.classList.add("active");
+    hideContent(); // always hide the text content of the currently active biome
   }
 
   /**
@@ -164,6 +185,7 @@ function initBiomeControls() {
    */
   function forward() {
     prev = updateCurrentInactive(prev, 1); // make previous biome inactive
+    restoreContent(prev); // restore the content of the new "prev" biome
     idx = ++idx % biomes.length; // move index forward cyclically
     updateCurrent(idx, 1); // activate the new current biome
     lockUI(); // lock temporarily
@@ -175,6 +197,7 @@ function initBiomeControls() {
    */
   function backward() {
     next = updateCurrentInactive(next, -1); // make next biome inactive
+    restoreContent(next); // restore the text content of the new "next" biome
     idx = ((--idx % biomes.length) + biomes.length) % biomes.length; // move index backward safely
     updateCurrent(idx, -1); // activate the new current biome
     lockUI(); // lock temporarily
@@ -190,60 +213,60 @@ function initBiomeControls() {
     }
   });
 
-  let startX = 0;
-  let currentX = 0;
-  let isDragging = false;
+  // let startX = 0;
+  // let currentX = 0;
+  // let isDragging = false;
 
-  buttonGroup.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    isDragging = true;
-  });
+  // buttonGroup.addEventListener("touchstart", (e) => {
+  //   startX = e.touches[0].clientX;
+  //   isDragging = true;
+  // });
 
-  buttonGroup.addEventListener("touchmove", (e) => {
-    if (!isDragging) return;
+  // buttonGroup.addEventListener("touchmove", (e) => {
+  //   if (!isDragging) return;
 
-    currentX = e.touches[0].clientX;
-    const diff = currentX - startX;
-    const threshold = window.innerWidth * 0.25; // 25% of screen width
-    const progress = Math.max(-1, Math.min(1, diff / threshold)); // clamp to [-1, 1]
+  //   currentX = e.touches[0].clientX;
+  //   const diff = currentX - startX;
+  //   const threshold = window.innerWidth * 0.25; // 25% of screen width
+  //   const progress = Math.max(-1, Math.min(1, diff / threshold)); // clamp to [-1, 1]
 
-    // Move the active and neighbor buttons smoothly
-    const active = document.querySelector(".active");
-    const prev = document.querySelector(".prev");
-    const next = document.querySelector(".next");
+  //   // Move the active and neighbor buttons smoothly
+  //   const active = document.querySelector(".active");
+  //   const prev = document.querySelector(".prev");
+  //   const next = document.querySelector(".next");
 
-    // Move active slightly opposite to swipe
-    active.style.transform = `translateX(${progress * 20}%)`;
+  //   // Move active slightly opposite to swipe
+  //   active.style.transform = `translateX(${progress * 20}%)`;
 
-    // Move neighbors closer in
-    if (diff > 0 && prev)
-      prev.style.transform = `translateX(calc(-20vw + ${progress * 10}%))`;
-    if (diff < 0 && next)
-      next.style.transform = `translateX(calc(20vw + ${progress * 10}%))`;
-  });
+  //   // Move neighbors closer in
+  //   if (diff > 0 && prev)
+  //     prev.style.transform = `translateX(calc(-20vw + ${progress * 10}%))`;
+  //   if (diff < 0 && next)
+  //     next.style.transform = `translateX(calc(20vw + ${progress * 10}%))`;
+  // });
 
-  buttonGroup.addEventListener("touchend", () => {
-    isDragging = false;
-    const diff = currentX - startX;
-    const threshold = 50;
+  // buttonGroup.addEventListener("touchend", () => {
+  //   isDragging = false;
+  //   const diff = currentX - startX;
+  //   const threshold = 50;
 
-    // Decide whether to complete or snap back
-    if (Math.abs(diff) > threshold) {
-      if (diff < 0) forward();
-      else backward();
-    } else {
-      // Snap back
-      const active = document.querySelector(".active");
-      const prev = document.querySelector(".prev");
-      const next = document.querySelector(".next");
-      active.style.transform = "";
-      if (prev) prev.style.transform = "";
-      if (next) next.style.transform = "";
-    }
+  //   // Decide whether to complete or snap back
+  //   if (Math.abs(diff) > threshold) {
+  //     if (diff < 0) forward();
+  //     else backward();
+  //   } else {
+  //     // Snap back
+  //     const active = document.querySelector(".active");
+  //     const prev = document.querySelector(".prev");
+  //     const next = document.querySelector(".next");
+  //     active.style.transform = "";
+  //     if (prev) prev.style.transform = "";
+  //     if (next) next.style.transform = "";
+  //   }
 
-    startX = 0;
-    currentX = 0;
-  });
+  //   startX = 0;
+  //   currentX = 0;
+  // });
 
   // Click navigation
   prev.addEventListener("click", backward);
@@ -251,6 +274,7 @@ function initBiomeControls() {
     console.log("hello");
   });
   next.addEventListener("click", forward);
+  hideContent();
 
   // Keyboard arrow navigation
   document.body.addEventListener("keydown", (event) => {
