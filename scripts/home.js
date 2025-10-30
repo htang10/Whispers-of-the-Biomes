@@ -86,7 +86,7 @@ function initBiomeControls() {
    * accidentally seeing or selecting hidden text, especially on mobile.
    */
   function hideContent() {
-    const active = document.querySelector('.active');
+    const active = document.querySelector(".active");
     content = active.textContent;
     active.textContent = "";
   }
@@ -97,6 +97,13 @@ function initBiomeControls() {
    */
   function restoreContent(element) {
     element.textContent = content;
+  }
+
+  /**
+   * Transfers to biome pages
+   */
+  function activeClick() {
+    console.log("clicked");
   }
 
   /**
@@ -127,6 +134,7 @@ function initBiomeControls() {
     const newTarget = current;
     newTarget.classList.remove("active");
     newTarget.classList.add(clsToAdd);
+    newTarget.removeEventListener("click", activeClick);
     newTarget.addEventListener("click", targetEvent);
 
     return newTarget;
@@ -150,9 +158,7 @@ function initBiomeControls() {
     current = biomes[index];
     current.classList.remove(clsToRemove, "animate-enter");
     current.removeEventListener("click", targetEvent);
-    current.addEventListener("click", function () {
-      console.log("hello");
-    });
+    current.addEventListener("click", activeClick);
     current.classList.add("active");
     hideContent(); // always hide the text content of the currently active biome
   }
@@ -173,8 +179,7 @@ function initBiomeControls() {
       targetEvent = backward;
     }
 
-    const nextInactiveBiome =
-      biomes[(idx + direction + biomes.length) % biomes.length];
+    const nextInactiveBiome = biomes[(idx + direction + biomes.length) % biomes.length];
     nextInactiveBiome.classList.add(clsToAdd, "animate-enter");
     nextInactiveBiome.addEventListener("click", targetEvent);
     return nextInactiveBiome;
@@ -204,6 +209,11 @@ function initBiomeControls() {
     prev = updateNextInactive(-1); // prepare the new "prev" biome
   }
 
+
+  /**
+   * Navigations
+   */
+
   // Scroll wheel navigation
   buttonGroup.addEventListener("wheel", (event) => {
     if (event.deltaY > 0 || event.deltaX < 0) {
@@ -213,76 +223,57 @@ function initBiomeControls() {
     }
   });
 
-  // let startX = 0;
-  // let currentX = 0;
-  // let isDragging = false;
-
-  // buttonGroup.addEventListener("touchstart", (e) => {
-  //   startX = e.touches[0].clientX;
-  //   isDragging = true;
-  // });
-
-  // buttonGroup.addEventListener("touchmove", (e) => {
-  //   if (!isDragging) return;
-
-  //   currentX = e.touches[0].clientX;
-  //   const diff = currentX - startX;
-  //   const threshold = window.innerWidth * 0.25; // 25% of screen width
-  //   const progress = Math.max(-1, Math.min(1, diff / threshold)); // clamp to [-1, 1]
-
-  //   // Move the active and neighbor buttons smoothly
-  //   const active = document.querySelector(".active");
-  //   const prev = document.querySelector(".prev");
-  //   const next = document.querySelector(".next");
-
-  //   // Move active slightly opposite to swipe
-  //   active.style.transform = `translateX(${progress * 20}%)`;
-
-  //   // Move neighbors closer in
-  //   if (diff > 0 && prev)
-  //     prev.style.transform = `translateX(calc(-20vw + ${progress * 10}%))`;
-  //   if (diff < 0 && next)
-  //     next.style.transform = `translateX(calc(20vw + ${progress * 10}%))`;
-  // });
-
-  // buttonGroup.addEventListener("touchend", () => {
-  //   isDragging = false;
-  //   const diff = currentX - startX;
-  //   const threshold = 50;
-
-  //   // Decide whether to complete or snap back
-  //   if (Math.abs(diff) > threshold) {
-  //     if (diff < 0) forward();
-  //     else backward();
-  //   } else {
-  //     // Snap back
-  //     const active = document.querySelector(".active");
-  //     const prev = document.querySelector(".prev");
-  //     const next = document.querySelector(".next");
-  //     active.style.transform = "";
-  //     if (prev) prev.style.transform = "";
-  //     if (next) next.style.transform = "";
-  //   }
-
-  //   startX = 0;
-  //   currentX = 0;
-  // });
-
-  // Click navigation
-  prev.addEventListener("click", backward);
-  current.addEventListener("click", function () {
-    console.log("hello");
-  });
-  next.addEventListener("click", forward);
-  hideContent();
-
   // Keyboard arrow navigation
   document.body.addEventListener("keydown", (event) => {
     if (["ArrowRight", "ArrowDown"].includes(event.key)) forward();
     else if (["ArrowLeft", "ArrowUp"].includes(event.key)) backward();
   });
-}
 
+  // Dragging navigation (For mobile users)
+  let startX = 0;
+  let currentX = 0;
+  let startY = 0;
+  let currentY = 0;
+  let isDragging = false;
+
+  buttonGroup.addEventListener("touchstart", (e) => {
+    startX = currentX = e.touches[0].clientX;
+    startY = currentY = e.touches[0].clientY;
+    isDragging = true;
+  });
+
+  buttonGroup.addEventListener("touchmove", (e) => {
+    if (!isDragging) return;
+
+    currentX = e.touches[0].clientX;
+    currentY = e.touches[0].clientY;
+  });
+
+  buttonGroup.addEventListener("touchend", () => {
+    isDragging = false;
+    const diffX = currentX - startX;
+    const diffY = currentY - startY;
+    const threshold = 50;
+
+    // Only trigger horizontal swipe navigation if the swipe is mostly horizontal.
+    // This prevents accidental diagonal or vertical swipes from changing biomes.
+    if (Math.abs(diffX) >= threshold && Math.abs(diffY) < threshold) {
+      if (diffX < 0) {
+        forward();
+      } else {
+        backward();
+      }
+    }
+
+    startX = currentX = startY = currentY = 0;
+  });
+
+  // Click navigation
+  prev.addEventListener("click", backward);
+  current.addEventListener("click", activeClick);
+  next.addEventListener("click", forward);
+  hideContent();
+}
 
 // ======================================================
 // 3. Initialization
