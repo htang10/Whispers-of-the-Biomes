@@ -23,9 +23,12 @@
     --button-radius: 1.25rem;
     --slider-gap: 1rem;
     --intro-text-margin: 0 max(0.625rem, 10%);
-    --prev-offset-x: max(-2em, -20vw);
-    --next-offset-x: min(2em, 20vw);
-    --button-scale-inactive: 0.8;
+    --prev-offsetX: -2em;
+    --prev-rotateY-inactive: -50deg;
+    --next-offsetX: 2em;
+    --next-rotateY-inactive: 50deg;
+    --button-scale-inactive: 0.75;
+    --perspecive-inactive: 37.5rem;
 
     /* --- Main Styling --- */
     --text-shadow-color: rgba(255,255,255,0.6);
@@ -185,11 +188,13 @@ canvas {
 }
 
 .prev {
-    transform: translateX(var(--prev-offset-x)) scale(var(--button-scale-inactive));
+    transform-origin: left center;
+    transform: translateX(var(--prev-offsetX)) scale(var(--button-scale-inactive)) perspective(var(--perspecive-inactive)) rotateY(var(--prev-rotateY-inactive));
 }
 
 .next {
-    transform: translateX(var(--next-offset-x)) scale(var(--button-scale-inactive));
+    transform-origin: right center;
+    transform: translateX(var(--next-offsetX)) scale(var(--button-scale-inactive)) perspective(var(--perspecive-inactive)) rotateY(var(--next-rotateY-inactive));
 }
 
 /* Adds fade-in effect when a new biome button appears.
