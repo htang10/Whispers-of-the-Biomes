@@ -15,7 +15,7 @@
 :root {
     /* --- Font & Typography --- */
     --font-size-intro: 3rem;
-    --font-size-button: 2.5rem;
+    --font-size-button: 2rem;
     
     /* --- Layout dimensions --- */
     --button-width: 10rem;
@@ -23,9 +23,9 @@
     --button-radius: 1.25rem;
     --slider-gap: 1rem;
     --intro-text-margin: 0 max(0.625rem, 10%);
-    --prev-offsetX: -2em;
+    --prev-offsetX: -2.5em;
     --prev-rotateY-inactive: -50deg;
-    --next-offsetX: 2em;
+    --next-offsetX: 2.5em;
     --next-rotateY-inactive: 50deg;
     --button-scale-inactive: 0.75;
     --perspecive-inactive: 37.5rem;
@@ -36,6 +36,7 @@
     --box-shawdow-color: rgba(255, 255, 255, 0.2);
 
     /* --- Biome Themes (Color & Emoji) --- */
+    --icon-size: 2.5rem;
     --forest-color-bg: forestgreen;
     --forest-emoji: '🌳';
     --mesa-color-bg: rgb(188, 161, 119);
@@ -161,6 +162,7 @@ canvas {
 }
 
 .active::after {
+    font-size: var(--icon-size);
     transform: translateY(4em);
 }
 
@@ -171,7 +173,7 @@ canvas {
     transform: translateY(-4em);
   }
   .active:hover::after {
-    transform: translateY(0);
+    transform: translateY(0.1em);
   }
 }
 
