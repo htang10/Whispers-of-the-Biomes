@@ -34,12 +34,24 @@ const UI_LOCKED_DURATION = 500; // Lock UI briefly to prevent rapid switching
  */
 function initIntro() {
   const introScene = document.getElementById("intro");
-  if (!introScene) return; // skip if intro is disabled in HTML
+  if (!introScene) return; // skip if intro not in HTML
 
-  // Wait for total animation time before fading out
+  // --- Handle returning visitors (skip intro) ---
+  const visited = sessionStorage.getItem("visited");
+  if (visited) {
+    introScene.style.display = "none";
+    return;
+  }
+
+  // --- First visit: play intro normally ---
+  // Mark that intro was shown once (resets on new tab)
+  sessionStorage.setItem("visited", true);
+
+  // After intro text finishes
   setTimeout(() => {
     introScene.classList.add("fade-out");
-    // After fade completes, remove the intro scene entirely
+
+    // Remove intro after fade-out
     setTimeout(() => {
       introScene.style.display = "none";
     }, INTRO_FADE_OUT);
