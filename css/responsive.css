@@ -1,0 +1,9 @@
+@media (max-width: 320px) {
+    :root {
+        --prev-offsetX: -1.8em;
+        --prev-rotateY-inactive: -60deg;
+        --next-offsetX: 1.8em;
+        --next-rotateY-inactive: 60deg;
+        --button-scale-inactive: 0.7;
+    }
+}

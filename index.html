@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whispers of the Biomes</title>
+  <link rel="icon" type="image/png" href="assets/earth.png">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Codystar:wght@300;400&family=Diphylleia&family=Flavors&family=Great+Vibes&family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <script type="importmap" defer>
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="scripts/home.js" defer></script>
+  <script type="module" src="scripts/earth.js" defer></script>
+</head>
+<body>
+  <div id="intro">
+    <p class="line">Every living being has its own voice...</p>
+    <p class="line">Let the voice lead your path, traveler.</p>
+  </div>
+  <canvas id="earth"></canvas>
+  <div id="biomes" class="slider">
+    <div id="forest" data-label="Forest" icon-label="🌳" class="item active">Forest</div>
+    <div id="mesa" data-label="Mesa" icon-label="🏜️" class="item next">Mesa</div>
+    <div id="caldera" data-label="Caldera" icon-label="🌋" class="item">Caldera</div>
+    <div id="marine" data-label="Marine" icon-label="🪼" class="item">Marine</div>
+    <div id="tundra" data-label="Tundra" icon-label="🗻" class="item prev">Tundra</div>
+  </div>
+</body>
+</html>
