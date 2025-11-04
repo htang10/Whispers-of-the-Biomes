@@ -38,15 +38,10 @@
     /* --- Biome Themes (Color & Emoji) --- */
     --icon-size: 2.5rem;
     --forest-color-bg: forestgreen;
-    --forest-emoji: '🌳';
     --mesa-color-bg: rgb(188, 161, 119);
-    --mesa-emoji: '🏜️';
     --caldera-color-bg: rgb(229,101,32);
-    --caldera-emoji: '🌋';
-    --marine-color-bg: #356095;
-    --marine-emoji: '🪼';
+    --marine-color-bg: rgb(53, 96, 149);
     --tundra-color-bg: rgb(135,142,205);
-    --tundra-emoji: '🗻';
     
     /* --- Timing & Animation control --- */
     --intro-animation-duration: 4s;
@@ -161,9 +156,14 @@ canvas {
     transition: all var(--hover-transition-duration) ease-out;
 }
 
+.active::before {
+    content: attr(data-label);
+}
+
 .active::after {
     font-size: var(--icon-size);
     transform: translateY(4em);
+    content: attr(icon-label);
 }
 
 /* Applies hover animation only on devices that support real cursor hover (e.g., desktop).
@@ -222,25 +222,9 @@ canvas {
     background-color: var(--forest-color-bg);
 }
 
-#forest.active::before {
-    content: "Forest";
-}
-
-#forest.active::after {
-    content: var(--forest-emoji);
-}
-
 /* ---------- Mesa ---------- */
 #mesa {
     background-color: var(--mesa-color-bg);
-}
-
-#mesa.active::before {
-    content: "Mesa";
-}
-
-#mesa.active::after {
-    content: var(--mesa-emoji);
 }
 
 /* ---------- Caldera ---------- */
@@ -248,38 +232,14 @@ canvas {
     background-color: var(--caldera-color-bg);
 }
 
-#caldera.active::before {
-    content: "Caldera";
-}
-
-#caldera.active::after {
-    content: var(--caldera-emoji);
-}
-
 /* ---------- Marine ---------- */
 #marine {
     background-color: var(--marine-color-bg);
 }
 
-#marine.active::before {
-    content: "Marine";
-}
-
-#marine.active::after {
-    content: var(--marine-emoji);
-}
-
 /* ---------- Tundra ---------- */
 #tundra {
     background-color: var(--tundra-color-bg);
-}
-
-#tundra.active::before {
-    content: "Tundra";
-}
-
-#tundra.active::after {
-    content: var(--tundra-emoji);
 }
 
 /* =========================================================
