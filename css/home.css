@@ -1,17 +1,11 @@
 /* =========================================================
-   File: home.css
-   Purpose: Home page styling (intro scene, Earth canvas,
-            biome buttons, and transitions)
-   Project: Whispers of the Biomes
-   Author: Group 12
-   Last Updated: Oct 2025
-   ========================================================= */
-
-/* =========================================================
    1. ROOT VARIABLES
    ---------------------------------------------------------
-   Timing, colors, and emoji representations for each biome
+   Define shared properties such as font sizes, animation
+   durations, color themes, and biome-specific settings.
    ========================================================= */
+
+
 :root {
     /* --- Font & Typography --- */
     --font-size-intro: 3rem;
@@ -53,10 +47,14 @@
     --enter-animation-delay: 0.3s;
 }
 
+
 /* =========================================================
-   2. INTRODUCTION SCENE
-   ========================================================= */
-/* ? Is there a way to further improve the intro scence rather than just having plain text? */
+   2. INTRO SCENE
+   ---------------------------------------------------------
+   Controls the layout, positioning, and fade animations
+   for the introductory text that appears on page load.
+   ========================================================= */ 
+
 
 /* ---------- Layout & Text ---------- */
 #intro {
@@ -93,18 +91,29 @@
     animation-delay: calc(var(--intro-animation-duration) + var(--intro-transition-duration));
 }
 
+
 /* =========================================================
    3. EARTH CANVAS
+   ---------------------------------------------------------
+   Styles the Three.js canvas element and ensures it
+   scales responsively across different viewports.
    ========================================================= */
+
+
 canvas {
     display: block;
     width: 100vw !important;
     height: 100vh !important;
 }
 
+
 /* =========================================================
-   4. BIOME BUTTON SLIDER
+   4. BIOME SLIDER
+   ---------------------------------------------------------
+   Handles layout, positioning, and transition effects for
+   biome navigation buttons, including active/prev/next states.
    ========================================================= */
+
 
 /* ---------- Layout ---------- */
 .slider {
@@ -213,9 +222,38 @@ canvas {
     transition: none;
 }
 
+
 /* =========================================================
-   5. BIOME-SPECIFIC STYLES
+   5. MUTE BUTTON
+   ---------------------------------------------------------
+   Styles the mute toggle positioned at the top-right corner
+   for controlling background ambient sound.
    ========================================================= */
+
+
+#mute-btn {
+    position: fixed;
+    inset: 1rem 1rem auto auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    font-size: 2rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   6. BIOME THEMES
+   ---------------------------------------------------------
+   Defines background colors and theme-specific styles for
+   each biome (Forest, Mesa, Caldera, Marine, Tundra).
+   ========================================================= */
+
 
 /* ---------- Forest ---------- */
 #forest {
@@ -242,9 +280,14 @@ canvas {
     background-color: var(--tundra-color-bg);
 }
 
+
 /* =========================================================
-   6. ANIMATIONS
+   7. ANIMATIONS
+   ---------------------------------------------------------
+   Declares keyframes and transition timing used for button
+   reveals, intro fade, and biome entry effects.
    ========================================================= */
+
 
 /* ---------- Entry animation for previous/next buttons ---------- */
 @keyframes enter {

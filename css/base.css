@@ -1,25 +1,22 @@
 /* =========================================================
-   File: base.css
-   Purpose: Global base styles, resets, and shared variables
-   Project: Whispers of the Biomes
-   Author: Group 12
-   Last Updated: Oct 2025
+   0. RESET
    ========================================================= */
 
-/* =========================================================
-   1. RESET
-   ========================================================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+
 /* =========================================================
-   2. ROOT VARIABLES
+   1. ROOT VARIABLES
    ---------------------------------------------------------
    Define shared design tokens (fonts, colors, base sizes)
    ========================================================= */
+
+
 :root {
     /* --- Font & Typography --- */
     --font-family: "Zain", sans-serif;
@@ -29,9 +26,12 @@
     --color-bg: #000000;
 }
 
+
 /* =========================================================
-   3. GLOBAL TYPOGRAPHY & BASE STYLES
+   2. GLOBAL TYPOGRAPHY & BASE STYLES
    ========================================================= */
+
+
 html {
     font-size: var(--font-size-base);
 }
@@ -42,5 +42,6 @@ body {
     color: var(--color-text);
     background-color: var(--color-bg);
 }
+
 
 /* ===== END OF FILE ===== */
