@@ -1,43 +1,86 @@
 /**
  * ======================================================
- *  earth.js — 3D Earth Rendering for Whispers of the Biomes
+ * File: earth.js
+ * Project: Whispers of the Biomes
+ * Author: Huy Tang
+ * Last Updated: Nov 5, 2025
  * ======================================================
- * Handles:
- *  1. Scene setup using Three.js (camera, renderer, lighting)
- *  2. Earth model creation with realistic surface, lights, clouds, and glow
- *  3. Background starfield for immersive environment
- *  4. Continuous Earth rotation and responsive resizing
- * ------------------------------------------------------
+ * Purpose:
+ *   Renders the 3D interactive Earth scene for the homepage
+ *   using Three.js. Includes lighting, starfield background,
+ *   atmospheric glow, and continuous rotation animation.
+ *
+ * Responsibilities:
+ *   - Initialize Three.js scene, camera, and renderer
+ *   - Construct realistic Earth model with textures and glow
+ *   - Add dynamic lighting and starfield for immersion
+ *   - Continuously animate Earth rotation
+ *   - Handle viewport resizing for responsiveness
+ *
  * Dependencies:
- *  - three.js
- *  - OrbitControls (camera interaction)
- *  - getStarfield.js (generates background stars)
- *  - getFresnelMat.js (adds outer atmospheric glow)
+ *   - three.js
+ *   - OrbitControls (Three.js camera controls)
+ *   - getStarfield.js (background star generator)
+ *   - getFresnelMat.js (Fresnel atmospheric glow material)
+ *
+ * Key Features:
+ *   - Layered Earth mesh (surface, clouds, lights, glow)
+ *   - Smooth camera control via OrbitControls
+ *   - Subtle continuous rotation for realism
+ *   - Adaptive rendering on window resize
  * ======================================================
  */
 
-// === Imports ===
+
+// ======================================================
+// CONTENTS
+// ------------------------------------------------------
+// 0. Imports & Constants
+// 1. Scene Setup
+// 2. Earth Model Construction
+// 3. Environment & Lighting
+// 4. Animation Loop
+// 5. Responsive Resize Handling
+// 6. Initialization
+// ======================================================
+
+
+// ======================================================
+// 0. IMPORTS & CONSTANTS
+// ======================================================
+
+
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import getStarfield from "./external/getStarfield.js";
 import { getFresnelMat } from "./external/getFresnelMat.js";
 
-// === Constants ===
 const ROTATION_SPEED = 0.0009; // Earth rotation speed (radians per frame)
 
+
+// ======================================================
+// 1. SCENE SETUP
+// ======================================================
+
+
 /**
- * ======================================================
- *  main() — Initializes and runs the 3D Earth scene
- * ======================================================
- * Steps:
- *  1. Create scene, camera, and renderer
- *  2. Load textures and construct layered Earth model
- *  3. Add ambient stars and directional light (sun)
- *  4. Start continuous rotation animation loop
- *  5. Adjust rendering on window resize
+ * Initializes and runs the 3D Earth scene.
+ *
+ * Sets up the camera, renderer, and scene environment using Three.js.
+ * Constructs the Earth model with multiple layers, adds lighting and
+ * starfield background, and starts the continuous rotation loop.
+ *
+ * Logic Flow:
+ *   1. Create scene, camera, and renderer
+ *   2. Load textures and construct the Earth group
+ *   3. Add starfield and directional lighting
+ *   4. Start animation loop for rotation
+ *   5. Adjust rendering on window resize
+ *
+ * @returns {void}
  */
 function main() {
-  // ===== Canvas & Camera Setup =====
+  // Canvas & Camera setup
   const canvas = document.querySelector("#earth");
   const fov = 75; // Field of view in degrees
   const aspect = window.innerWidth / window.innerHeight;
@@ -59,65 +102,99 @@ function main() {
   const scene = new THREE.Scene();
   const controls = new OrbitControls(camera, renderer.domElement);
 
-  // ===== Earth Group =====
-  const earthGroup = new THREE.Group();
-  earthGroup.rotation.z = (-23.4 * Math.PI) / 180; // Tilt to match Earth’s axial tilt
 
-  // ===== Texture Loading =====
-  const loader = new THREE.TextureLoader();
-  const earthMap = loader.load("assets/earthmap1k.jpg"); // Diffuse color map
-  const earthSpec = loader.load("assets/earthspec1k.jpg"); // Specular highlights (oceans)
-  const earthBump = loader.load("assets/earthbump1k.jpg"); // Terrain elevation
-  const lightsTexture = loader.load("assets/earthlights1k.jpg"); // Night city lights
-  const cloudsTexture = loader.load("assets/earthcloudmap.jpg"); // Cloud layer
+  // ======================================================
+  // 2. EARTH MODEL CONSTRUCTION
+  // ======================================================
 
-  // ===== Base Earth Mesh =====
-  const earthGeometry = new THREE.SphereGeometry(2, 100, 100);
-  const earthMaterial = new THREE.MeshPhongMaterial({
-    map: earthMap,
-    specularMap: earthSpec,
-    bumpMap: earthBump,
-    bumpScale: 0.04,
-  });
-  const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
-  earthGroup.add(earthMesh);
 
-  // ===== City Lights Layer =====
-  const lightsMaterial = new THREE.MeshBasicMaterial({
-    map: lightsTexture,
-    blending: THREE.AdditiveBlending,
-  });
-  const lightsMesh = new THREE.Mesh(earthGeometry, lightsMaterial);
-  earthGroup.add(lightsMesh);
+    /**
+   * Creates a layered 3D Earth model with textures for surface,
+   * terrain, city lights, clouds, and an atmospheric glow.
+   *
+   * @returns {THREE.Group} The completed Earth group.
+   */
+  function createEarthModel() {
+    const earthGroup = new THREE.Group();
+    earthGroup.rotation.z = (-23.4 * Math.PI) / 180; // Earth's axial tilt
 
-  // ===== Cloud Layer =====
-  const cloudsMaterial = new THREE.MeshStandardMaterial({
-    map: cloudsTexture,
-    blending: THREE.AdditiveBlending,
-  });
-  const cloudsMesh = new THREE.Mesh(earthGeometry, cloudsMaterial);
-  cloudsMesh.scale.setScalar(1.003); // Slightly larger to sit above the surface
-  earthGroup.add(cloudsMesh);
+    const loader = new THREE.TextureLoader();
+    const earthMap = loader.load("assets/earthmap1k.jpg");
+    const earthSpec = loader.load("assets/earthspec1k.jpg");
+    const earthBump = loader.load("assets/earthbump1k.jpg");
+    const lightsTexture = loader.load("assets/earthlights1k.jpg");
+    const cloudsTexture = loader.load("assets/earthcloudmap.jpg");
 
-  // ===== Atmospheric Glow (Fresnel Effect) =====
-  const fresnelMat = getFresnelMat();
-  const glowMesh = new THREE.Mesh(earthGeometry, fresnelMat);
-  glowMesh.scale.setScalar(1.01); // Slightly larger for outer glow
-  earthGroup.add(glowMesh);
+    const earthGeometry = new THREE.SphereGeometry(2, 100, 100);
 
-  // Add everything to the scene
+    // Surface layer
+    const earthMaterial = new THREE.MeshPhongMaterial({
+      map: earthMap,
+      specularMap: earthSpec,
+      bumpMap: earthBump,
+      bumpScale: 0.04,
+    });
+    const earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
+    earthGroup.add(earthMesh);
+
+    // City lights layer
+    const lightsMaterial = new THREE.MeshBasicMaterial({
+      map: lightsTexture,
+      blending: THREE.AdditiveBlending,
+    });
+    const lightsMesh = new THREE.Mesh(earthGeometry, lightsMaterial);
+    earthGroup.add(lightsMesh);
+
+    // Cloud layer
+    const cloudsMaterial = new THREE.MeshStandardMaterial({
+      map: cloudsTexture,
+      blending: THREE.AdditiveBlending,
+      transparent: true,
+    });
+    const cloudsMesh = new THREE.Mesh(earthGeometry, cloudsMaterial);
+    cloudsMesh.scale.setScalar(1.003);
+    earthGroup.add(cloudsMesh);
+
+    // Atmospheric glow
+    const fresnelMat = getFresnelMat();
+    const glowMesh = new THREE.Mesh(earthGeometry, fresnelMat);
+    glowMesh.scale.setScalar(1.01);
+    earthGroup.add(glowMesh);
+
+    return { earthGroup, earthMesh, lightsMesh, cloudsMesh, glowMesh };
+  }
+
+  const { earthGroup, earthMesh, lightsMesh, cloudsMesh, glowMesh } = createEarthModel();
   scene.add(earthGroup);
 
-  // ===== Background Stars =====
+
+  // ======================================================
+  // 3. ENVIRONMENT & LIGHTING
+  // ======================================================
+
+
+  // Background stars
   const stars = getStarfield({ numStars: 5000 });
   scene.add(stars);
 
-  // ===== Lighting Setup =====
+  // Directional sunlight
   const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
   sunLight.position.set(-2, 0.5, 1.5);
   scene.add(sunLight);
 
-  // ===== Animation Loop =====
+
+  // ======================================================
+  // 4. ANIMATION LOOP
+  // ======================================================
+
+
+  /**
+   * Continuously animates the Earth’s rotation and updates the scene.
+   * Each layer (surface, clouds, glow) rotates at slightly different speeds
+   * for subtle parallax depth.
+   *
+   * @returns {void}
+   */
   function animate() {
     requestAnimationFrame(animate);
     earthMesh.rotation.y += ROTATION_SPEED;
@@ -125,13 +202,27 @@ function main() {
     cloudsMesh.rotation.y += ROTATION_SPEED * 1.5;
     glowMesh.rotation.y += ROTATION_SPEED;
     stars.rotation.y -= ROTATION_SPEED; // Opposite rotation for parallax depth
+
     controls.update();
     renderer.render(scene, camera);
   }
 
   animate();
 
-  // ===== Responsive Resize Handling =====
+
+  // ======================================================
+  // 5. RESPONSIVE RESIZE HANDLING
+  // ======================================================
+
+
+  /**
+   * Adjusts the camera and renderer when the browser window is resized.
+   *
+   * Maintains correct aspect ratio and ensures the 3D scene remains
+   * fully visible and properly scaled.
+   *
+   * @returns {void}
+   */
   window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -139,5 +230,10 @@ function main() {
   });
 }
 
-// Initialize the Earth scene
+
+// ======================================================
+// 6. INITIALIZATION
+// ======================================================
+
+
 main();

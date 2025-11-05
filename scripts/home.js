@@ -1,57 +1,92 @@
 /**
  * ======================================================
- *  home.js — Core logic for Whispers of the Biomes
+ * File: home.js
+ * Project: Whispers of the Biomes
+ * Author: Huy Tang
+ * Last Updated: Nov 5, 2025
  * ======================================================
- * Handles:
- *  1. Intro scene fade-out after animation
- *  2. Interactive biome navigation (buttons, scroll, keys)
- *  3. Smooth transitions between biomes
- * ------------------------------------------------------
- * Each biome element cycles between:
- *   - prev  → previous biome (left)
- *   - active → current biome (center)
- *   - next  → next biome (right)
+ * Purpose:
+ *   Controls the homepage experience — including the intro sequence,
+ *   interactive biome navigation, and ambient sound toggle.
  *
- * The logic ensures smooth switching via:
- *   - click (on next/prev)
- *   - scroll (wheel)
- *   - keyboard arrows
+ * Responsibilities:
+ *   - Handle intro text fade-in/out and skip logic for returning visitors
+ *   - Manage biome slider transitions via click, scroll, key, or touch
+ *   - Synchronize biome UI states (prev / active / next)
+ *   - Control ambient sound and mute functionality
+ *
+ * Dependencies:
+ *   - Standard DOM API (no external libraries)
+ *
+ * Key Features:
+ *   - Smooth CSS-driven transitions for navigation
+ *   - Lazy-loaded background sound to comply with autoplay policy
+ *   - Persistent intro skip state using sessionStorage
  * ======================================================
  */
 
 
-// === Global Constants ===
-const INTRO_FADE_OUT = 4000; // Duration (ms) of intro fade-out
-const INTRO_TOTAL = 9000; // Total intro text display time before fade starts
-const UI_LOCKED_DURATION = 500; // Lock UI briefly to prevent rapid switching
-
 // ======================================================
+// CONTENTS
+// ------------------------------------------------------
+// 0. Global Constants
 // 1. Intro Scene Setup
+// 2. Biome Navigation Control
+// 3. Ambient Sound Control
+// 4. Initialization
 // ======================================================
-/**
- * Handles the introductory text animation fade-out sequence.
- * Waits for the full intro to finish, then hides the element.
- */
-function initIntro() {
-  const introScene = document.getElementById("intro");
-  if (!introScene) return; // skip if intro not in HTML
 
-  // --- Handle returning visitors (skip intro) ---
+
+// ======================================================
+// 0. GLOBAL CONSTANTS
+// ======================================================
+
+
+const INTRO_FADE_OUT = 4000;                      // Duration (ms) of the fading out effect before hiding intro
+const INTRO_TOTAL = 9000;                         // Total animation time for the intro scene before fading starts
+const UI_LOCKED_DURATION = 500;                   // Duration (ms) to lock UI during biome transitions, ensuring smoothness
+const AUDIO_SOURCE = "assets/home-bg-music.m4a";  // Path to the ambient background audio file
+
+
+// ======================================================
+// 1. INTRO SCENE SETUP
+// ======================================================
+
+
+/**
+ * Initializes and manages the introductory text animation sequence.
+ *
+ * Displays the intro text on first visit, then automatically fades it out
+ * and hides the intro screen after the animation finishes. Returning visitors
+ * skip the intro entirely using session-based state.
+ *
+ * Logic Flow:
+ *   1. Check if the user has visited before (via sessionStorage)
+ *   2. If not, play the intro text animation
+ *   3. After animation ends, fade out and hide the intro scene
+ *   4. Mark session as "visited" to skip intro on next load
+ *
+ * @returns {void}
+ */
+function setUpIntro() {
+  const introScene = document.getElementById("intro");
+  if (!introScene) return; // Exit early if intro is missing
+
+  // If the intro is already played once, it will be skipped until users close the current tab
   const visited = sessionStorage.getItem("visited");
   if (visited) {
     introScene.style.display = "none";
     return;
   }
 
-  // --- First visit: play intro normally ---
   // Mark that intro was shown once (resets on new tab)
   sessionStorage.setItem("visited", true);
 
-  // After intro text finishes
+  // After intro animation finishes, start fading out
   setTimeout(() => {
     introScene.classList.add("fade-out");
 
-    // Remove intro after fade-out
+    // Remove intro after fading completes
     setTimeout(() => {
       introScene.style.display = "none";
     }, INTRO_FADE_OUT);
@@ -60,13 +95,32 @@ function initIntro() {
 
 
 // ======================================================
-// 2. Biome Navigation Setup
+// 2. BIOME NAVIGATION CONTROL
 // ======================================================
+// This section contains ALL logic for biome transitions
+// and navigation methods (click, scroll, keyboard, touch).
+// Subsections are organized as:
+//   2.1 — Core Helper Functions (lockUI, hideContent, etc.)
+//   2.2 — Transition Handlers (forward, backward)
+//   2.3 — Navigation Inputs (scroll, keyboard, touch, click)
+// ======================================================
+
+
 /**
- * Initializes all biome navigation controls and transition logic.
- * - Tracks current, previous, and next biomes
- * - Handles user interaction (click, scroll, arrow keys)
- * - Ensures transitions are smooth and locked temporarily
+ * Initializes the interactive biome navigation system.
+ *
+ * Sets up the logic and event handling for switching between biomes
+ * using buttons, scroll wheel, keyboard arrows, and touch gestures.
+ * Manages active, previous, and next biome states to ensure smooth
+ * visual transitions and temporarily locks the UI to prevent rapid inputs.
+ *
+ * Logic Flow:
+ *   1. Identify biome elements and assign active/prev/next states
+ *   2. Handle navigation via click, scroll, arrow keys, and swipe
+ *   3. Smoothly transition between biomes with animation classes
+ *   4. Temporarily disable input during transitions to avoid glitches
+ *
+ * @returns {void}
  */
 function initBiomeControls() {
   const buttonGroup = document.querySelector("#biomes");
@@ -74,14 +128,21 @@ function initBiomeControls() {
   let idx = 0; // Start from the first biome
   let content;
 
-  // Initial element references
-  let prev = biomes.at(-1); // last biome (wrap-around)
-  let current = biomes[idx]; // active biome
+  let prev = biomes.at(-1);   // previous biome (wrap-around)
+  let current = biomes[idx];  // active biome
   let next = biomes[idx + 1]; // next biome
+  
+
+  //* ---------- 2.1 Core Helper Functions ----------\
+
 
   /**
-   * Temporarily disables user interaction during transitions.
-   * Prevents users from double-clicking while elements move.
+   * Temporarily disables biome navigation to prevent rapid input.
+   *
+   * Locks pointer events and disables transitions briefly
+   * to ensure smooth and stable biome switching.
+   *
+   * @returns {void}
    */
   function lockUI() {
     buttonGroup.style.pointerEvents = "none";
@@ -93,9 +154,12 @@ function initBiomeControls() {
   }
 
   /**
-   * Hides the text of the current active biome to improve UI appearance.
-   * Using empty text instead of transparent color prevents users from 
-   * accidentally seeing or selecting hidden text, especially on mobile.
+   * Hides the text content of the currently active biome button.
+   *
+   * Stores the text temporarily to restore it later,
+   * preventing visual overlap or accidental selection.
+   *
+   * @returns {void}
    */
   function hideContent() {
     const active = document.querySelector(".active");
@@ -104,27 +168,42 @@ function initBiomeControls() {
   }
 
   /**
-   * Restores the hidden text of a previously active biome after transition.
+   * Restores the previously hidden text to a biome button.
+   *
    * @param {HTMLElement} element - The biome element to restore text to.
+   * @returns {void}
    */
   function restoreContent(element) {
     element.textContent = content;
   }
 
   /**
-   * Transfers to biome pages
+   *! Placeholder for future biome page navigation logic.
+   *
+   * TODO Will be updated later to handle biome-specific transitions
+   * TODO or page redirection when a biome button is clicked.
+   *
+   * @returns {void}
    */
-  function activeClick() {
-    console.log("clicked");
+  function redirect() {
+    console.log("Biome navigation placeholder");
   }
 
+
+  //* ---------- 2.2 Transition Handlers ----------
+
+
   /**
-   * Updates the biome moving *out* of the active state.
-   * @param {HTMLElement} target - The biome to deactivate (prev or next)
-   * @param {number} direction - +1 for forward, -1 for backward
-   * @returns {HTMLElement} - The updated element reference
+   * Deactivates the current biome as it transitions out of view.
+   *
+   * Removes its active state, assigns it as either the previous or next biome,
+   * and updates event listeners for proper navigation direction.
+   *
+   * @param {HTMLElement} target - The biome element moving out of active state.
+   * @param {number} direction - Direction of movement (+1 forward, -1 backward).
+   * @returns {HTMLElement} The updated biome element reference.
    */
-  function updateCurrentInactive(target, direction) {
+  function deactivateCurrentBiome(target, direction) {
     let clsToRemove, clsToAdd, targetEvent;
     if (direction === 1) {
       // Moving forward
@@ -146,18 +225,24 @@ function initBiomeControls() {
     const newTarget = current;
     newTarget.classList.remove("active");
     newTarget.classList.add(clsToAdd);
-    newTarget.removeEventListener("click", activeClick);
+    newTarget.removeEventListener("click", redirect);
     newTarget.addEventListener("click", targetEvent);
 
     return newTarget;
   }
 
   /**
-   * Updates the current active biome element.
-   * @param {number} index - New active biome index
-   * @param {number} direction - +1 forward / -1 backward
+   * Activates the biome at the specified index and sets it as the new active biome.
+   *
+   * Removes the inactive class (prev/next), assigns the active state, and
+   * attaches the click handler for future redirection. Also hides the biome’s
+   * text content to enable smooth visual transitions.
+   *
+   * @param {number} index - Index of the biome to activate.
+   * @param {number} direction - Direction of movement (+1 forward, -1 backward).
+   * @returns {void}
    */
-  function updateCurrent(index, direction) {
+  function activateBiome(index, direction) {
     let clsToRemove, targetEvent;
     if (direction === 1) {
       clsToRemove = "next";
@@ -170,18 +255,22 @@ function initBiomeControls() {
     current = biomes[index];
     current.classList.remove(clsToRemove, "animate-enter");
     current.removeEventListener("click", targetEvent);
-    current.addEventListener("click", activeClick);
+    current.addEventListener("click", redirect);
     current.classList.add("active");
     hideContent(); // always hide the text content of the currently active biome
   }
 
   /**
-   * Prepares the biome that will appear *next* in the direction of movement.
-   * Adds the proper CSS classes and click handler.
-   * @param {number} direction - +1 forward / -1 backward
-   * @returns {HTMLElement} - The new next/prev biome element
+   * Prepares the biome that will appear next in the navigation sequence.
+   *
+   * Assigns the appropriate class (prev/next) and animation state based
+   * on navigation direction, and attaches the corresponding event listener
+   * for the upcoming transition.
+   *
+   * @param {number} direction - Direction of movement (+1 forward, -1 backward).
+   * @returns {HTMLElement} The biome element prepared to become active next.
    */
-  function updateNextInactive(direction) {
+  function prepareNextBiome(direction) {
     let clsToAdd, targetEvent;
     if (direction === 1) {
       clsToAdd = "next";
@@ -198,33 +287,50 @@ function initBiomeControls() {
   }
 
   /**
-   * Moves the biome display forward (rightward / next).
+   * Advances the biome carousel forward to the next biome.
+   *
+   * Handles the full forward transition sequence:
+   *   1. Deactivates the current biome and shifts it to the previous position.
+   *   2. Restores text for the new previous biome.
+   *   3. Updates the index to the next biome cyclically.
+   *   4. Activates the next biome and locks UI temporarily.
+   *   5. Prepares the following biome for smooth entry.
+   *
+   * @returns {void}
    */
   function forward() {
-    prev = updateCurrentInactive(prev, 1); // make previous biome inactive
-    restoreContent(prev); // restore the content of the new "prev" biome
-    idx = ++idx % biomes.length; // move index forward cyclically
-    updateCurrent(idx, 1); // activate the new current biome
-    lockUI(); // lock temporarily
-    next = updateNextInactive(1); // prepare the new "next" biome
+    prev = deactivateCurrentBiome(prev, 1);      // Make previous biome inactive
+    restoreContent(prev);                        // Restore text for the new prev biome
+    idx = ++idx % biomes.length;                 // Move index forward cyclically
+    activateBiome(idx, 1);                       // Activate the new current biome
+    lockUI();                                    // Temporarily disable inputs
+    next = prepareNextBiome(1);                  // Set up the next biome for transition
   }
 
   /**
-   * Moves the biome display backward (leftward / previous).
+   * Moves the biome carousel backward to the previous biome.
+   *
+   * Handles the full backward transition sequence:
+   *   1. Deactivates the current biome and shifts it to the next position.
+   *   2. Restores text for the new next biome.
+   *   3. Updates the index to the previous biome safely (cyclic wrap-around).
+   *   4. Activates the previous biome and locks UI temporarily.
+   *   5. Prepares the preceding biome for the next potential transition.
+   *
+   * @returns {void}
    */
   function backward() {
-    next = updateCurrentInactive(next, -1); // make next biome inactive
-    restoreContent(next); // restore the text content of the new "next" biome
-    idx = ((--idx % biomes.length) + biomes.length) % biomes.length; // move index backward safely
-    updateCurrent(idx, -1); // activate the new current biome
-    lockUI(); // lock temporarily
-    prev = updateNextInactive(-1); // prepare the new "prev" biome
+    next = deactivateCurrentBiome(next, -1);     // Make next biome inactive
+    restoreContent(next);                         // Restore text for the new next biome
+    idx = ((--idx % biomes.length) + biomes.length) % biomes.length; // Move index backward safely
+    activateBiome(idx, -1);                       // Activate the new current biome
+    lockUI();                                     // Temporarily disable inputs
+    prev = prepareNextBiome(-1);                  // Set up the previous biome for transition
   }
 
 
-  /**
-   * Navigations
-   */
+  //* ---------- 2.3 Navigation Inputs ----------
+
 
   // Scroll wheel navigation
   buttonGroup.addEventListener("wheel", (event) => {
@@ -282,18 +388,63 @@ function initBiomeControls() {
 
   // Click navigation
   prev.addEventListener("click", backward);
-  current.addEventListener("click", activeClick);
+  current.addEventListener("click", redirect);
   next.addEventListener("click", forward);
   hideContent();
 }
 
+
 // ======================================================
-// 3. Initialization
+// 3. AMBIENT SOUND CONTROL
 // ======================================================
+
+
 /**
- * Runs intro and biome setup once the DOM is fully loaded.
+ * Initializes and controls the ambient background sound for the homepage.
+ *
+ * Creates an Audio object on first user interaction (unmuting) to comply
+ * with browser autoplay restrictions. The audio loops continuously in
+ * the background and can be muted or unmuted without pausing playback.
+ * Updates the mute button icon dynamically to reflect the current state.
+ *
+ * Logic Flow:
+ *   1. Wait for user to click the mute button (first interaction)
+ *   2. Create and configure the Audio object (loop, volume, muted)
+ *   3. Toggle the mute state on each click
+ *   4. Update the mute icon (🔇 / 🔊) accordingly
+ *
+ * @returns {void}
  */
+function setUpSound() {
+  const muteBtn = document.getElementById("mute-btn");
+  if (!muteBtn) return; // Exit early if mute button is missing
+
+  let audio;
+
+  muteBtn.addEventListener("click", () => {
+    if (!audio) {
+      audio = new Audio(AUDIO_SOURCE);
+      audio.loop = true;
+      audio.volume = 1;
+      audio.muted = true;
+    }
+
+    audio.muted = !audio.muted;
+    muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+    if (!audio.muted) {
+      audio.play();
+    }
+  });
+}
+
+
+// ======================================================
+// 4. INITIALIZATION
+// ======================================================
+
+
 document.addEventListener("DOMContentLoaded", () => {
-  initIntro();
+  setUpIntro();
   initBiomeControls();
+  setUpSound();
 });
