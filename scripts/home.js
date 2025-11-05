@@ -42,9 +42,10 @@
 // ======================================================
 
 
-const INTRO_FADE_OUT = 4000;      // Duration (ms) of the fading out effect before hiding intro
-const INTRO_TOTAL = 9000;         // Total animation time for the intro scene before fading starts
-const UI_LOCKED_DURATION = 500;   // Duration (ms) to lock UI during biome transitions, ensuring smoothness
+const INTRO_FADE_OUT = 4000;                      // Duration (ms) of the fading out effect before hiding intro
+const INTRO_TOTAL = 9000;                         // Total animation time for the intro scene before fading starts
+const UI_LOCKED_DURATION = 500;                   // Duration (ms) to lock UI during biome transitions, ensuring smoothness
+const AUDIO_SOURCE = "assets/home-bg-music.m4a";  // Path to the ambient background audio file
 
 
 // ======================================================
@@ -422,7 +423,7 @@ function setUpSound() {
 
   muteBtn.addEventListener("click", () => {
     if (!audio) {
-      audio = new Audio("assets/home-bg-music.mp3");
+      audio = new Audio(AUDIO_SOURCE);
       audio.loop = true;
       audio.volume = 1;
       audio.muted = true;
