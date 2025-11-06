@@ -234,7 +234,7 @@ function initBiomeControls() {
     const newTarget = current;
     newTarget.classList.remove("active");
     newTarget.classList.add(clsToAdd);
-    newTarget.removeEventListener("click", redirect);
+    newTarget.removeEventListener("click", (event) => redirect(event));
     newTarget.addEventListener("click", targetEvent);
 
     return newTarget;
@@ -264,7 +264,7 @@ function initBiomeControls() {
     current = biomes[index];
     current.classList.remove(clsToRemove, "animate-enter");
     current.removeEventListener("click", targetEvent);
-    current.addEventListener("click", redirect);
+    current.addEventListener("click", (event) => redirect(event));
     current.classList.add("active");
     hideContent(); // always hide the text content of the currently active biome
   }
