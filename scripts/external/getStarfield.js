@@ -32,7 +32,7 @@ export default function getStarfield({ numStars = 500 } = {}) {
   const geo = new THREE.BufferGeometry();
   geo.setAttribute("position", new THREE.Float32BufferAttribute(verts, 3));
   geo.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
-  const tex = new THREE.TextureLoader().load("assets/circle.png");
+  const tex = new THREE.TextureLoader().load("assets/home/circle.png");
     tex.flipY = false;
     tex.premultiplyAlpha = false;
   const mat = new THREE.PointsMaterial({
