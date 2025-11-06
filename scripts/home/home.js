@@ -177,7 +177,6 @@ function initBiomeControls() {
     element.textContent = content;
   }
 
-
   /**
    * Handles biome button redirection to its respective page.
    *
@@ -196,6 +195,26 @@ function initBiomeControls() {
   function redirect(event) {
     const biome = event.currentTarget.id;
     window.location.href = `pages/${biome}.html`;
+  }
+
+  /**
+   * Wrapper handler for biome redirection.
+   *
+   * Serves as a persistent function reference for adding and removing
+   * click event listeners that trigger biome page navigation. This is
+   * necessary because passing anonymous arrow functions directly into
+   * `addEventListener` or `removeEventListener` creates new references
+   * each time, preventing proper event cleanup.
+   *
+   * Logic Flow:
+   *   1. Invokes the main `redirect()` function with the received event.
+   *   2. Ensures consistent reference for proper add/remove behavior.
+   *
+   * @param {Event} event - The click event triggered on a biome button.
+   * @returns {void}
+   */
+  function redirectHandler(event) {
+    redirect(event);
   }
 
 
@@ -234,7 +253,7 @@ function initBiomeControls() {
     const newTarget = current;
     newTarget.classList.remove("active");
     newTarget.classList.add(clsToAdd);
-    newTarget.removeEventListener("click", (event) => redirect(event));
+    newTarget.removeEventListener("click", redirectHandler);
     newTarget.addEventListener("click", targetEvent);
 
     return newTarget;
@@ -264,7 +283,7 @@ function initBiomeControls() {
     current = biomes[index];
     current.classList.remove(clsToRemove, "animate-enter");
     current.removeEventListener("click", targetEvent);
-    current.addEventListener("click", (event) => redirect(event));
+    current.addEventListener("click", redirectHandler);
     current.classList.add("active");
     hideContent(); // always hide the text content of the currently active biome
   }
@@ -397,7 +416,7 @@ function initBiomeControls() {
 
   // Click navigation
   prev.addEventListener("click", backward);
-  current.addEventListener("click", (event) => redirect(event));
+  current.addEventListener("click", redirectHandler);
   next.addEventListener("click", forward);
   hideContent();
 }
