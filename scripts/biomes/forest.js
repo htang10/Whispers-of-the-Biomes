@@ -56,7 +56,7 @@ function main() {
 
     // Model importing
     const loader = new GLTFLoader();
-    loader.load("../../assets/forest/scene.gltf", 
+    loader.load("../assets/forest/scene.gltf", 
         function (gltf) { 
             const model = gltf.scene;
             model.position.set(1.5, -0.75, 1);
