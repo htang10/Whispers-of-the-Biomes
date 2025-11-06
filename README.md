@@ -8,6 +8,7 @@
 ## Authors
 
 - [Huy Tang](https://github.com/htang10)
+- [Danial Daneshfar](https://github.com/Dandazine)
 
 (Need to add other teammates)
 
