@@ -9,9 +9,8 @@
 
 - [Huy Tang](https://github.com/htang10)
 - [Danial Daneshfar](https://github.com/Dandazine)
-
-(Need to add other teammates)
-
+- [Steffi Noynay](https://github.com/ellenoynay)
+- [Munhib Shahum](https://github.com/munhib056)
 
 ## Run Locally
 
