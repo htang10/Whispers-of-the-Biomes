@@ -12,26 +12,35 @@
     --font-size-button: 2rem;
     
     /* --- Layout dimensions --- */
-    --button-width: 10rem;
-    --button-height: 5rem;
-    --button-radius: 1.25rem;
-    --slider-gap: 1rem;
     --intro-text-margin: 0 max(0.625rem, 10%);
+    --btn-width: 10rem;
+    --btn-height: 5rem;
+    --btn-radius: 1.25rem;
+    --btn-padding: 1rem 2rem 1.5rem 2rem;
+    --btn-translate-before: -0.125em;
+    --btn-translate-after: 4em;
+    --btn-translate-hover-before: -4em;
+    --btn-translate-hover-after: -0.06em;
+    --slider-gap: 1rem;
     --prev-offsetX: -2.5em;
-    --prev-rotateY-inactive: -50deg;
+    --prev-rotateY: -50deg;
     --next-offsetX: 2.5em;
-    --next-rotateY-inactive: 50deg;
-    --button-scale-inactive: 0.75;
+    --next-rotateY: 50deg;
+    --btn-scale-inactive: 0.75;
     --perspecive-inactive: 37.5rem;
 
     /* --- Main Styling --- */
-    --text-shadow-color: rgba(255,255,255,0.6);
+    --text-shadow-blur: 0.5rem;
+    --text-shadow-color: rgba(0, 0, 0, 0.1);
+    --border-width: 0.2rem;
     --border-color: rgba(255, 255, 255, 0.2);
-    --box-shawdow-color: rgba(255, 255, 255, 0.2);
+    --box-shadow-blur: 1.25rem;
+    --box-shadow-blur-active: 10rem;
+    --box-shadow-color: rgba(0, 0, 0, 0.1);
 
     /* --- Biome Themes (Color & Emoji) --- */
     --icon-size: 2.5rem;
-    --forest-color-bg: forestgreen;
+    --forest-color-bg: rgb(34, 139, 34);
     --mesa-color-bg: rgb(188, 161, 119);
     --caldera-color-bg: rgb(229,101,32);
     --marine-color-bg: rgb(53, 96, 149);
@@ -132,13 +141,15 @@ canvas {
     display: none;
     justify-content: center;
     align-items: center;
-    width: var(--button-width);
-    height: var(--button-height);
+    width: var(--btn-width);
+    height: var(--btn-height);
+    padding: var(--btn-padding);
     font-size: var(--font-size-button);
-    text-shadow: 0 0 0.5rem var(--text-shadow-color);
-    border: 5px solid var(--border-color);
-    border-radius: var(--button-radius);
-    box-shadow: inset 0 0.1rem 0.25rem var(--box-shawdow-color);
+    text-shadow: 0 0 var(--text-shadow-blur) var(--text-shadow-color);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--btn-radius);
+    box-shadow: inset 0 0 var(--box-shadow-blur) var(--box-shadow-color);
+    vertical-align: middle;
 }
 
 /* ---------- Active Button ---------- */
@@ -167,11 +178,12 @@ canvas {
 
 .active::before {
     content: attr(data-label);
+    transform: translateY(var(--btn-translate-before));
 }
 
 .active::after {
     font-size: var(--icon-size);
-    transform: translateY(4em);
+    transform: translateY(var(--btn-translate-after));
     content: attr(icon-label);
 }
 
@@ -179,11 +191,15 @@ canvas {
    Prevents hover from getting stuck on touchscreens. */
 @media (hover: hover) and (pointer: fine) {
   .active:hover::before {
-    transform: translateY(-4em);
+    transform: translateY(var(--btn-translate-hover-before));
   }
   .active:hover::after {
-    transform: translateY(0.1em);
+    transform: translateY(var(--btn-translate-hover-after));
   }
+}
+
+.active:active {
+    box-shadow: inset 0 0 var(--box-shadow-blur-active) var(--box-shadow-color);
 }
 
 /* ---------- Neighbor Buttons ---------- */
@@ -200,12 +216,12 @@ canvas {
 
 .prev {
     transform-origin: left center;
-    transform: translateX(var(--prev-offsetX)) scale(var(--button-scale-inactive)) perspective(var(--perspecive-inactive)) rotateY(var(--prev-rotateY-inactive));
+    transform: translateX(var(--prev-offsetX)) scale(var(--btn-scale-inactive)) perspective(var(--perspecive-inactive)) rotateY(var(--prev-rotateY));
 }
 
 .next {
     transform-origin: right center;
-    transform: translateX(var(--next-offsetX)) scale(var(--button-scale-inactive)) perspective(var(--perspecive-inactive)) rotateY(var(--next-rotateY-inactive));
+    transform: translateX(var(--next-offsetX)) scale(var(--btn-scale-inactive)) perspective(var(--perspecive-inactive)) rotateY(var(--next-rotateY));
 }
 
 /* Adds fade-in effect when a new biome button appears.
