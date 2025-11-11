@@ -1,0 +1,152 @@
+/* JUST FILLER STYLING FOR NOW, NEEDS RE-ORGANIZATION AND CLEANUP  */
+:root {
+  /* --- Font & Typography --- */
+  --font-size-intro: 3rem;
+  --font-size-button: 2rem;
+
+  /* --- Layout dimensions --- */
+  --button-width: 10rem;
+  --button-height: 5rem;
+  --button-radius: 1.25rem;
+  --intro-text-margin: 0 max(0.625rem, 10%);
+  --next-offsetX: 2.5em;
+  --next-rotateY-inactive: 50deg;
+  --button-scale-inactive: 0.75;
+
+  /* --- Main Styling --- */
+  --text-shadow-color: rgba(255, 255, 255, 0.6);
+  --border-color: rgba(255, 255, 255, 0.2);
+  --box-shawdow-color: rgba(255, 255, 255, 0.2);
+
+  /* --- Timing & Animation control --- */
+  --intro-animation-duration: 4s;
+  --intro-transition-duration: 1s;
+
+  /* --- Biome Themes (Color & Emoji) --- */
+  --icon-size: 2.5rem;
+  --forest-color-bg: forestgreen;
+  --mesa-color-bg: rgb(188, 161, 119);
+  --caldera-color-bg: rgb(229, 101, 32);
+  --marine-color-bg: rgb(53, 96, 149);
+  --tundra-color-bg: rgb(135, 142, 205);
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+.splash-div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 2em;
+  font-weight: bold;
+  z-index: 9999;
+  transition: transform 1.5s ease-in-out;
+}
+
+.splash-div.forest {
+  background: var(--forest-color-bg);
+}
+
+.splash-div.hide {
+  transform: translateY(-100%);
+}
+
+#intro {
+  inset: 0;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
+
+/* ---------- Text Lines ---------- */
+.line {
+  text-transform: uppercase;
+  position: absolute;
+  inset: auto 0;
+  margin: var(--intro-text-margin);
+  font-size: var(--font-size-intro);
+  text-align: center;
+  opacity: 0;
+  animation: fadeInOut var(--intro-animation-duration) ease-in-out
+    var(--intro-transition-duration) forwards;
+}
+
+.header {
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 0.5rem 2rem 0.25rem;
+  font-size: 1.2em;
+  border-radius: 0.5rem;
+  transition: top 0.6s ease, opacity 0.6s ease;
+  z-index: 9998;
+  opacity: 1;
+}
+
+.sticky {
+  position: fixed;
+  bottom: 1rem;
+  padding: 0.25rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  z-index: 9998;
+}
+
+.sticky .mesa {
+  background: var(--mesa-color-bg);
+}
+
+.left {
+  left: 20px;
+}
+
+.right {
+  right: 20px;
+}
+
+.hideLeft {
+  transform: translateX(-150%);
+  opacity: 0;
+}
+
+.hideRight {
+  transform: translateX(150%);
+  opacity: 0;
+}
+
+.hideTop {
+  top: -150%;
+  opacity: 0;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
