@@ -3,6 +3,8 @@
    ========================================================= */
 
 
+@import url('https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -19,7 +21,10 @@
 
 :root {
     /* --- Font & Typography --- */
-    --font-family: "Zain", sans-serif;
+    --font-family: "Darumadrop One", sans-serif;
+    --font-weight: 300;
+    --line-height: 1.6;
+    --letter-spacing: 1px;
     --font-size-base: 16px;
     /* --- Global Colors --- */
     --color-text: #ffffff;
@@ -38,7 +43,9 @@ html {
 
 body {
     font-family: var(--font-family);
-    font-weight: 400;
+    font-weight: var(--font-weight);
+    line-height: var(--line-height);
+    letter-spacing: var(--letter-spacing);
     color: var(--color-text);
     background-color: var(--color-bg);
 }
