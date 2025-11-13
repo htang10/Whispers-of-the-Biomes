@@ -8,11 +8,9 @@
 
 :root {
     /* --- Font & Typography --- */
-    --font-size-intro: 3rem;
     --font-size-button: 2rem;
     
     /* --- Layout dimensions --- */
-    --intro-text-margin: 0 max(0.625rem, 10%);
     --btn-width: 10rem;
     --btn-height: 5rem;
     --btn-radius: 1.25rem;
@@ -38,17 +36,10 @@
     --box-shadow-blur-active: 10rem;
     --box-shadow-color: rgba(0, 0, 0, 0.1);
 
-    /* --- Biome Themes (Color & Emoji) --- */
+    /* --- Biomes --- */
     --icon-size: 2.5rem;
-    --forest-color-bg: rgb(34, 139, 34);
-    --mesa-color-bg: rgb(188, 161, 119);
-    --caldera-color-bg: rgb(229,101,32);
-    --marine-color-bg: rgb(53, 96, 149);
-    --tundra-color-bg: rgb(135,142,205);
     
     /* --- Timing & Animation control --- */
-    --intro-animation-duration: 4s;
-    --intro-transition-duration: 1s;
     --earth-transition-duration: 4s;
     --item-transition-duration: 0.75s;
     --hover-transition-duration: 1s;
@@ -73,7 +64,7 @@
     display: grid;
     justify-content: center;
     align-items: center;
-    background-color: var(--color-bg);
+    background-color: var(--main-color-bg);
     opacity: 1;
     transition: opacity var(--earth-transition-duration) ease-out;
 }
@@ -172,7 +163,7 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--color-text);
+    color: var(--main-color-text);
     transition: all var(--hover-transition-duration) ease-out;
 }
 
