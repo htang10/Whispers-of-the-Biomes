@@ -1,0 +1,68 @@
+/* =========================================================
+   0. RESET
+   ========================================================= */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   1. ROOT VARIABLES
+   ---------------------------------------------------------
+   Define shared design tokens (fonts, colors, base sizes)
+   ========================================================= */
+
+
+:root {
+    /* --- Font & Typography --- */
+    --font-family: "Darumadrop One", sans-serif;
+    --font-weight: 300;
+    --line-height: 1.6;
+    --letter-spacing: 1px;
+    --font-size-base: 16px;
+    --font-size-intro: 3rem;
+
+    /* --- Layout dimensions --- */
+    --intro-text-margin: 0 max(0.625rem, 10%);
+
+    /* --- Global Colors --- */
+    --main-color-text: #ffffff;
+    --main-color-bg: #000000;
+    --forest-color-bg: rgb(34, 139, 34);
+    --mesa-color-bg: rgb(188, 161, 119);
+    --caldera-color-bg: rgb(229,101,32);
+    --marine-color-bg: rgb(53, 96, 149);
+    --tundra-color-bg: rgb(135,142,205);
+
+    /* --- Timing & Animation control --- */
+    --intro-animation-duration: 4s;
+    --intro-transition-duration: 1s;
+}
+
+
+/* =========================================================
+   2. GLOBAL TYPOGRAPHY & BASE STYLES
+   ========================================================= */
+
+
+html {
+    font-size: var(--font-size-base);
+}
+
+body {
+    font-family: var(--font-family);
+    font-weight: var(--font-weight);
+    line-height: var(--line-height);
+    letter-spacing: var(--letter-spacing);
+    color: var(--main-color-text);
+    background-color: var(--main-color-bg);
+}
+
+
+/* ===== END OF FILE ===== */

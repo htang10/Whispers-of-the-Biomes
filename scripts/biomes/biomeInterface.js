@@ -44,18 +44,17 @@ function createSplash(title) {
 
 function trackPageStatus() {
   // tracking if timer is done and page is loaded
-  let script = document.getElementById("biomeScript");
   let minTime = 4000;
 
-  // checks if script is loaded
-  script.onload = function () {
+  // checks if DOM is loaded
+  document.addEventListener("DOMContentLoaded", function () {
     // hide splash after minimum time and if page is loaded
     setTimeout(() => {
-      timerDone = true;
+      //! BUG DETECTED: timerDone = true;
       hideSplash();
       handleButtons();
     }, minTime);
-  };
+  });
 }
 
 function hideSplash() {
@@ -112,3 +111,54 @@ function handleButtons() {
         - Add to git and merge
         - OPTIONAL: adjust styling
 */
+
+
+/**
+ * Creates an interactive blurred circle with a descriptive popup.
+ ** THIS FUNCTION IS NOT YET COMPLETE. The parameters of specifying the position where the circle will be 
+ ** might be changed later.
+ * @param {number} xPercent - Horizontal position (percentage)
+ * @param {number} yPercent - Vertical position (percentage)
+ * @param {string} text - The popup text shown when circle is clicked
+ */
+export function createBlurCircle(xPercent, yPercent, text) {
+  const wrapper = document.querySelector('.image-wrapper');
+  const circle = document.createElement('div');
+  circle.className = 'blur-circle';
+  circle.style.left = `${xPercent}%`;
+  circle.style.top = `${yPercent}%`;
+
+  const popup = document.createElement('div');
+  popup.className = 'circle-popup';
+  popup.textContent = text;
+
+  wrapper.appendChild(circle);
+  wrapper.appendChild(popup);
+
+  // Show/hide popup on click
+  circle.addEventListener('click', function () {
+    const popup = this.nextSibling;
+    popup.classList.toggle('visible');
+    // Clicking on the popup hides it again
+    popup.addEventListener('click', () => {
+      popup.classList.remove('visible');
+    });
+  });
+}
+
+/**
+ * Centers the background image when users entering the site
+ */
+function centerBackground() {
+  const container = document.querySelector(".bg-container");
+  if (!container) return;
+
+  const scrollWidth = (container.scrollWidth - window.innerWidth) / 2;
+  container.scrollLeft = scrollWidth;
+}
+
+// Center background on load
+document.addEventListener("DOMContentLoaded", centerBackground);
+
+// Recenter background on browser resize
+window.addEventListener("resize", centerBackground);
