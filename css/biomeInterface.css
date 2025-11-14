@@ -8,11 +8,24 @@
 
 :root {
   --bg-width: 100%;
-  --circle-width: min(1.5rem, 6vw);
-  --circle-height: min(1.5rem, 6vw);
-  --popup-width: min(13.75rem, 25vw);
-  --popup-height: 9.375rem;
+
+  --circle-anchor-name: --blur-circle;
+  --circle-width: 1.5rem;
+  --circle-height: 1.5rem;
+  --circle-radius: 1rem;
+  --circle-color: rgba(255, 255, 255, 0.2);
+  --circle-color-hover: rgba(255, 255, 255, 0.4);
+  --circle-blur-hover: 0.125rem;
+  --circle-scale-active: 1.25;
+  --circle-animation-duration: 0.3s;
+
+  --popup-width: 17rem;
+  --popup-height: 10rem;
   --popup-font-size: 1rem;
+  --popup-color: rgba(0, 0, 0, 0.4);
+  --popup-padding: 0.75rem 1.4rem;
+  --popup-radius: 1rem;
+  --popup-animation-duration: 0.3s;
 }
 
 
@@ -28,15 +41,15 @@
 .splash-div {
   position: fixed;
   inset: 0;
+  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
-  font-size: 2em;
-  font-weight: bold;
   width: 100%;
   height: 100%;
-  z-index: 9999;
+  font-size: 2em;
+  font-weight: bold;
+  color: #fff;
   transition: transform 1.5s ease-in-out;
 }
 
@@ -90,14 +103,14 @@
   position: fixed;
   top: 2rem;
   left: 50%;
-  transform: translateX(-50%);
+  z-index: 9998;
   padding: 0.5rem 2rem 0.25rem;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: #fff;
   font-size: 1.2em;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.7);
   border-radius: 0.5rem;
   opacity: 1;
-  z-index: 9998;
+  transform: translateX(-50%);
   transition: top 0.6s ease, opacity 0.6s ease;
 }
 
@@ -105,13 +118,13 @@
 .sticky {
   position: fixed;
   bottom: 1rem;
+  z-index: 9998;
   padding: 0.25rem 1rem;
   font-size: 1rem;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.7);
   border: none;
   border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  z-index: 9998;
   transition: transform 0.6s ease, opacity 0.6s ease;
 }
 
@@ -147,17 +160,13 @@
 
 
 .bg-container {
+  position: relative;
   width: 100vw;
   height: 100vh;
   overflow-y: hidden;
 }
 
-.image-wrapper {
-  width: 100%;
-  height: 100%;
-}
-
-#background {
+.bg-image {
   width: var(--bg-width);
   height: 100%;
 }
@@ -173,22 +182,22 @@
 
 .blur-circle {
   position: absolute;
+  anchor-name: var(--circle-anchor-name);
   width: var(--circle-width);
   height: var(--circle-height);
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--circle-color);
+  border-radius: var(--circle-radius);
+  transition: all var(--circle-animation-duration) ease-in-out;
   cursor: pointer;
-  transition: all 0.3s ease-out;
-  anchor-name: --blur-circle;
 }
 
 .blur-circle:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(0.125rem);
+  background-color: var(--circle-color-hover);
+  backdrop-filter: blur(--circle-blur-hover);
 }
 
 .blur-circle:active {
-  transform: scale(1.25);
+  transform: scale(var(--circle-scale-active));
 }
 
 
@@ -202,21 +211,20 @@
 
 .circle-popup {
   position: absolute;
-  position-anchor: --blur-circle;
   top: anchor(bottom);
   left: anchor(right);
+  position-anchor: var(--circle-anchor-name);
   position-try-fallbacks: --below-right, --below-left, --above-left, --above-right;
   min-width: var(--popup-width);
   max-width: var(--popup-height);
-  padding: 0.75em 1em;
-  background: rgba(0, 0, 0, 0.4);
-  color: white;
-  border-radius: 0.75em;
+  padding: var(--popup-padding);
   font-size: var(--popup-font-size);
+  background-color: var(--popup-color);
+  border-radius: var(--popup-radius);
   opacity: 0;
+  transition: all var(--popup-animation-duration) ease-out;
   cursor: default;
   pointer-events: none;
-  transition: opacity 0.3s ease;
 }
 
 .circle-popup.visible {
