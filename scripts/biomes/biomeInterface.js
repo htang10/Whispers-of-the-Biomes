@@ -115,29 +115,52 @@ function handleButtons() {
 
 /**
  * Creates an interactive blurred circle with a descriptive popup.
- ** THIS FUNCTION IS NOT YET COMPLETE. The parameters of specifying the position where the circle will be 
- ** might be changed later.
- * @param {number} xPercent - Horizontal position (percentage)
- * @param {number} yPercent - Vertical position (percentage)
+ * 
+ * (xPercent, yPercent) represent a position RELATIVE TO THE IMAGE.
+ * 
+ * These percentages are converted into pixel coordinates based on the
+ * displayed size of the image, ensuring the circle stays in the correct
+ * location even when the image scales on different screens.
+ * 
+ * @param {number} xPercent - Horizontal position relative to image width (0–100)
+ * @param {number} yPercent - Vertical position relative to image height (0–100)
  * @param {string} text - The popup text shown when circle is clicked
  */
 export function createBlurCircle(xPercent, yPercent, text) {
-  const wrapper = document.querySelector('.image-wrapper');
+  const container = document.querySelector('.bg-container');
+  const img = container.querySelector('.bg-image');
+
   const circle = document.createElement('div');
   circle.className = 'blur-circle';
-  circle.style.left = `${xPercent}%`;
-  circle.style.top = `${yPercent}%`;
 
   const popup = document.createElement('div');
   popup.className = 'circle-popup';
   popup.textContent = text;
 
-  wrapper.appendChild(circle);
-  wrapper.appendChild(popup);
+  container.appendChild(circle);
+  container.appendChild(popup);
+
+  function positionCircle() {
+    const imgWidth = img.clientWidth;
+    const imgHeight = img.clientHeight;
+
+    const xPx = (xPercent / 100) * imgWidth;
+    const yPx = (yPercent / 100) * imgHeight;
+
+    circle.style.left = `${xPx}px`;
+    circle.style.top = `${yPx}px`;
+  }
+
+  if (img.complete) {
+    positionCircle();
+  } else {
+    img.addEventListener('load', positionCircle, { once: true });
+  }
+
+  window.addEventListener('resize', positionCircle);
 
   // Show/hide popup on click
   circle.addEventListener('click', function () {
-    const popup = this.nextSibling;
     popup.classList.toggle('visible');
     // Clicking on the popup hides it again
     popup.addEventListener('click', () => {
