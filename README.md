@@ -1,9 +1,11 @@
 
-# <img src="assets/home/earth.png" alt="Logo"> Whispers of the Biomes
+# <img src="assets/home/earth.png" width="2rem" height="2rem" alt="Logo"> Whispers of the Biomes
 
 <div align="center">
     <i>A relaxing and educational interactive web experience exploring Earth’s biomes</i>
 </div>
+
+<br>
 
 ![MIT LICENSE](https://img.shields.io/badge/license-mit-green?style=for-the-badge)
 
