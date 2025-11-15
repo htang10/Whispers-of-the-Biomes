@@ -5,9 +5,11 @@
    background scaling on biome interface pages.
    ========================================================= */
 
-
 :root {
   --bg-width: 100%;
+
+  --biome-header-width: 25rem;
+  --sticky-btn-width: 10rem;
 
   --circle-anchor-name: --blur-circle;
   --circle-width: 1.5rem;
@@ -28,14 +30,12 @@
   --popup-animation-duration: 0.3s;
 }
 
-
 /* =========================================================
    2. SPLASH SCREEN
    ---------------------------------------------------------
    Temporary intro splash shown when entering a biome.
    Includes fade-out transition before UI elements load in.
    ========================================================= */
-
 
 /* ---------- Base Splash Styles ---------- */
 .splash-div {
@@ -69,14 +69,12 @@
   opacity: 1;
 }
 
-
 /* =========================================================
    3. SPLASH TEXT
    ---------------------------------------------------------
    Text animations for biome titles appearing on splash.
    Matches animation timing with global intro behavior.
    ========================================================= */
-
 
 .line {
   position: absolute;
@@ -86,9 +84,9 @@
   text-align: center;
   text-transform: uppercase;
   opacity: 0;
-  animation: fadeInOut var(--intro-animation-duration) ease-in-out var(--intro-transition-duration) forwards;
+  animation: fadeInOut var(--intro-animation-duration) ease-in-out
+    var(--intro-transition-duration) forwards;
 }
-
 
 /* =========================================================
    4. HEADER + BIOME NAV BUTTONS
@@ -97,43 +95,78 @@
    navigation buttons to switch biomes. Buttons animate in.
    ========================================================= */
 
+/* ---------- Biome interface elements ---------- */
 
-/* ---------- Header ---------- */
-.header {
+.mesa {
+  --accent: var(--mesa-color-bg);
+}
+.tundra {
+  --accent: var(--tundra-color-bg);
+}
+.forest {
+  --accent: var(--forest-color-bg);
+}
+.caldera {
+  --accent: var(--caldera-color-bg);
+}
+.marine {
+  --accent: var(--marine-color-bg);
+} /* https://www.w3schools.com/cssref/css4_pr_accent-color.php  */
+
+.sticky {
   position: fixed;
-  top: 2rem;
-  left: 50%;
   z-index: 9998;
-  padding: 0.5rem 2rem 0.25rem;
-  font-size: 1.2em;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.7);
-  border-radius: 0.5rem;
-  opacity: 1;
-  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent);
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(1rem);
+  border-radius: 0.25rem;
+}
+
+.sticky:link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.sticky:visited {
+  color: var(--accent);
+}
+
+/* ------------------Header ----------------------- */
+
+.header {
+  inset: 0 0 85vh 0;
+  margin: auto;
+  width: var(--biome-header-width);
+  height: 2.5rem;
+  padding: 0.5rem 2rem;
+  /* transform: translateX(-50%); */
   transition: top 0.6s ease, opacity 0.6s ease;
 }
 
 /* ---------- Sticky Buttons (Prev/Next) ---------- */
-.sticky {
-  position: fixed;
+.stickyBtn {
+  width: var(--sticky-btn-width);
   bottom: 1rem;
-  z-index: 9998;
   padding: 0.25rem 1rem;
-  font-size: 1rem;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.7);
-  border: none;
-  border-radius: 5px;
   transition: transform 0.6s ease, opacity 0.6s ease;
 }
 
-.sticky .mesa {
-  background: var(--mesa-color-bg);
+.stickyBtn:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+  /* text-decoration: underline; */
+  transform: scale(1.05) translateY(-0.1rem);
+  border-width: 2px;
 }
 
-.left { left: 20px; }
-.right { right: 20px; }
+.left {
+  left: 20px;
+}
+.right {
+  right: 20px;
+}
 
 .hideLeft {
   transform: translateX(-150%);
@@ -150,14 +183,12 @@
   opacity: 0;
 }
 
-
 /* =========================================================
    5. BACKGROUND IMAGE CONTAINER
    ---------------------------------------------------------
    Scrollable horizontal container for biome artwork. JS
    centers the image horizontally on load + resize.
    ========================================================= */
-
 
 .bg-container {
   position: relative;
@@ -171,14 +202,12 @@
   height: 100%;
 }
 
-
 /* =========================================================
    6. INTERACTIVE BLUR CIRCLES
    ---------------------------------------------------------
    Clickable hint markers with blur + hover effects.
    Position set dynamically using percentage coordinates.
    ========================================================= */
-
 
 .blur-circle {
   position: absolute;
@@ -200,7 +229,6 @@
   transform: scale(var(--circle-scale-active));
 }
 
-
 /* =========================================================
    7. POPUP TOOLTIP BOX
    ---------------------------------------------------------
@@ -208,13 +236,13 @@
    depending on available space using CSS anchor positioning.
    ========================================================= */
 
-
 .circle-popup {
   position: absolute;
   top: anchor(bottom);
   left: anchor(right);
   position-anchor: var(--circle-anchor-name);
-  position-try-fallbacks: --below-right, --below-left, --above-left, --above-right;
+  position-try-fallbacks: --below-right, --below-left, --above-left,
+    --above-right;
   min-width: var(--popup-width);
   max-width: var(--popup-height);
   padding: var(--popup-padding);
@@ -233,13 +261,11 @@
   pointer-events: auto;
 }
 
-
 /* =========================================================
    8. POPUP POSITION FALLBACKS
    ---------------------------------------------------------
    Ensures popup stays onscreen based on space availability.
    ========================================================= */
-
 
 @position-try --below-right {
   inset: unset;
@@ -265,17 +291,23 @@
   left: anchor(right);
 }
 
-
 /* =========================================================
    9. KEYFRAMES
    ---------------------------------------------------------
    Shared animation used for splash text fade-in/out cycle.
    ========================================================= */
 
-
 @keyframes fadeInOut {
-  0% { opacity: 0; }
-  40% { opacity: 1; }
-  70% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
