@@ -1,5 +1,8 @@
 
-# <img src="assets/home/earth.png" width="2rem" height="2rem" alt="Logo"> Whispers of the Biomes
+<h1 style="display: flex; align-items: center; gap: 0.5rem;">
+  <img src="docs/assets/home/earth.png" width="40rem" height="40rem" alt="Logo" />
+  Whispers of the Biomes
+</h1>
 
 <div align="center">
     <i>A relaxing and educational interactive web experience exploring Earth’s biomes</i>
