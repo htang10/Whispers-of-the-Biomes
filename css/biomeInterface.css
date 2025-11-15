@@ -10,6 +10,8 @@
 
   --biome-header-width: 25rem;
   --sticky-btn-width: 10rem;
+  --border-width: 0.1rem;
+  --btn-radius: 0.75rem;
 
   --circle-anchor-name: --blur-circle;
   --circle-width: 1.5rem;
@@ -119,10 +121,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--accent);
-  background-color: rgba(0, 0, 0, 0.6);
+  border: var(--border-width) solid var(--accent);
+  border-radius: var(--btn-radius);
+  background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(1rem);
-  border-radius: 0.25rem;
 }
 
 .sticky:link {
@@ -137,7 +139,7 @@
 /* ------------------Header ----------------------- */
 
 .header {
-  inset: 0 0 85vh 0;
+  inset: 0 0 90vh 0;
   margin: auto;
   width: var(--biome-header-width);
   height: 2.5rem;
@@ -158,7 +160,7 @@
   background-color: rgba(0, 0, 0, 0.9);
   /* text-decoration: underline; */
   transform: scale(1.05) translateY(-0.1rem);
-  border-width: 2px;
+  border-width: 0.15rem;
 }
 
 .left {
