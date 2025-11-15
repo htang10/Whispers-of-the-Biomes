@@ -1,7 +1,7 @@
 
 <h1 style="display: flex; align-items: center; gap: 0.5rem;">
   <img src="assets/home/earth.png" width="40rem" height="40rem" alt="Logo" />
-  <p>Whispers of the Biomes</p>
+  <span>Whispers of the Biomes</span>
 </h1>
 
 <div align="center">
