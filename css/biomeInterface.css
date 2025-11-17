@@ -33,6 +33,14 @@
   --popup-padding: 0.75rem 1.4rem;
   --popup-radius: 1rem;
   --popup-animation-duration: 0.3s;
+
+  --back-btn-position: 1.5rem auto auto 1rem;
+  --back-btn-size: 2.5rem;
+  --back-btn-color: rgba(255, 255, 255, 0.2);
+  --back-btn-border: 0.1875rem solid rgba(255, 255, 255, 0.25);
+  --back-btn-blur: blur(1rem);
+  --back-btn-transition: all 0.5s ease-out;
+  --back-btn-extended-length: 10.7rem;
 }
 
 /* =========================================================
@@ -245,12 +253,6 @@
   pointer-events: auto;
 }
 
-/* =========================================================
-   8. POPUP POSITION FALLBACKS
-   ---------------------------------------------------------
-   Ensures popup stays onscreen based on space availability.
-   ========================================================= */
-
 @position-try --below-right {
   inset: unset;
   top: anchor(bottom);
@@ -274,6 +276,66 @@
   bottom: anchor(top);
   left: anchor(right);
 }
+
+/* =========================================================
+   8. BACK BUTTON TO HOME PAGE
+   ========================================================= */
+
+
+.back-button {
+  position: fixed;
+  inset: var(--back-btn-position);
+  width: var(--back-btn-size);
+  height: var(--back-btn-size);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--main-color-text);
+  border-radius: 2rem;
+  transition: var(--back-btn-transition);
+  cursor: pointer;
+}
+
+.main, .extended {
+  display: flex;
+  align-items: center;
+  background-color: var(--back-btn-color);
+  border: var(--back-btn-border);
+  backdrop-filter: var(--back-btn-blur);
+  pointer-events: none;
+}
+
+.main {
+  z-index: 1;
+  justify-content: center;
+  transition: var(--back-btn-transition);
+}
+
+.extended {
+  justify-content: right;
+  padding-right: 1rem;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.extended .label {
+  transform: translateX(100%);
+  transition: var(--back-btn-transition);
+}
+
+.back-button:hover {
+  width: var(--back-btn-extended-length);
+  .main {
+    transform: rotateZ(-360deg);
+  }
+  .extended {
+    width: var(--back-btn-extended-length);
+    opacity: 1;
+  }
+  .extended .label {
+    transform: translateX(0);  
+  }
+}
+
 
 /* =========================================================
    9. KEYFRAMES
