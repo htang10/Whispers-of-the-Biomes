@@ -38,9 +38,10 @@
 
 
 // ======================================================
-// 0. GLOBAL CONSTANTS
+// 0. GLOBAL CONSTANTS AND IMPORTS
 // ======================================================
 
+import { setUpSound } from "../utils/sound.js";
 
 const INTRO_FADE_OUT = 4000;                      // Duration (ms) of the fading out effect before hiding intro
 const INTRO_TOTAL = 9000;                         // Total animation time for the intro scene before fading starts
@@ -453,27 +454,27 @@ function initBiomeControls() {
  *
  * @returns {void}
  */
-function setUpSound() {
-  const muteBtn = document.getElementById("mute-btn");
-  if (!muteBtn) return; // Exit early if mute button is missing
+// function setUpSound() {
+//   const muteBtn = document.getElementById("mute-btn");
+//   if (!muteBtn) return; // Exit early if mute button is missing
 
-  let audio;
+//   let audio;
 
-  muteBtn.addEventListener("click", () => {
-    if (!audio) {
-      audio = new Audio(AUDIO_SOURCE);
-      audio.loop = true;
-      audio.volume = 1;
-      audio.muted = true;
-    }
+//   muteBtn.addEventListener("click", () => {
+//     if (!audio) {
+//       audio = new Audio(AUDIO_SOURCE);
+//       audio.loop = true;
+//       audio.volume = 1;
+//       audio.muted = true;
+//     }
 
-    audio.muted = !audio.muted;
-    muteBtn.textContent = audio.muted ? "🔇" : "🔊";
-    if (!audio.muted) {
-      audio.play();
-    }
-  });
-}
+//     audio.muted = !audio.muted;
+//     muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+//     if (!audio.muted) {
+//       audio.play();
+//     }
+//   });
+// }
 
 
 // ======================================================
