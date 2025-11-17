@@ -1,7 +1,3 @@
-// ======================================================
-// AMBIENT SOUND CONTROL (from scripts/home/home.js)
-// ======================================================
-
 /**
  * Initializes and controls the ambient background sound for the homepage.
  *
@@ -18,18 +14,15 @@
  *
  * @returns {void}
  */
-export function setUpSound() {
-  const pageTitle = document.title.toLowerCase();
+export function setUpSound(src) {
   const muteBtn = document.getElementById("mute-btn");
   if (!muteBtn) return; // Exit early if mute button is missing
-
-  const audioSource = pageTitle == "whispers of the biomes" ? "assets/home/home-bg-music.m4a" : "../assets/" + pageTitle + "/" + pageTitle + "-bg-music.m4a";
 
   let audio;
 
   muteBtn.addEventListener("click", () => {
     if (!audio) {
-      audio = new Audio(audioSource);
+      audio = new Audio(src);
       audio.loop = true;
       audio.volume = 1;
       audio.muted = true;
@@ -42,12 +35,3 @@ export function setUpSound() {
     }
   });
 }
-
-
-// ======================================================
-// INITIALIZATION
-// ======================================================
-
-document.addEventListener("DOMContentLoaded", () => {
-  setUpSound();
-});
