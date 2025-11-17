@@ -61,9 +61,8 @@ function hideSplash() {
   let splashDiv = document.getElementById("splashDiv");
   splashDiv.classList.add("hide");
   splashDiv.addEventListener("transitionend", () => splashDiv.remove());
-}
-
-// create sticky elements that will serve as user interface
+}   
+    // create sticky elements that will serve as user interface
 function handleButtons() {
   let biomes = ["forest", "mesa", "caldera", "marine", "tundra"];
   let biome = getBiome();
@@ -98,7 +97,31 @@ function handleButtons() {
     header.classList.remove("hideTop");
     leftBtn.classList.remove("hideLeft");
     rightBtn.classList.remove("hideRight");
-  }, 2000);
+
+    insertHomeIcon();
+  },  2000);
+}
+
+// home icon to send user back to the landing page
+function insertHomeIcon() {
+  const home = document.createElement("a");
+  home.id = "home-icon";
+  home.href = "../index.html";
+  home.setAttribute("aria-label", "Back to Home");
+  home.setAttribute("title", "Back to Home");
+  home.classList.add("hideHome");
+  
+  home.innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+      <path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2zm11.84 12.11h-.07A19.62 19.62 0 0 1 24 15.79a19.27 19.27 0 0 0-2.88-10.63 12 12 0 0 1 6.72 8.95zM10 16c0-5.82 2.2-10.83 5-11.81V17a26 26 0 0 1-5-.64V16zm5 3v8.84c-2.4-.85-4.37-4.65-4.87-9.41A28.57 28.57 0 0 0 15 19zm2 8.84V19a28.57 28.57 0 0 0 4.87-.57c-.5 4.73-2.47 8.57-4.87 9.38zM17 17V4.19c2.8 1 5 6 5 11.81v.33a26 26 0 0 1-5 .67zM10.88 5.16A19.27 19.27 0 0 0 8 15.79a19.62 19.62 0 0 1-3.78-1.65h-.07a12 12 0 0 1 6.73-8.98zM4 16.28a22.26 22.26 0 0 0 4.07 1.61 18.36 18.36 0 0 0 2.8 9A12 12 0 0 1 4 16.28zm17.12 10.56a18.36 18.36 0 0 0 2.8-8.95A22.26 22.26 0 0 0 28 16.28a12 12 0 0 1-6.88 10.56z"/>
+    </svg>
+    `;
+  
+  document.body.appendChild(home);
+
+  setTimeout(() => {
+    home.classList.remove("hideHome");
+  }, 50);
 }
 
 /*

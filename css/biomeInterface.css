@@ -279,3 +279,42 @@
   70% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+/* =========================================================
+   10. HOME ICON
+   ---------------------------------------------------------
+   Earth icon that sends user back to the main landing page.
+   Apppears in the top left corner of each biome page.
+   ========================================================= */
+  
+ #home-icon {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 32px;
+  height: 32 px;
+  cursor: pointer;
+  z-index: 9999;
+
+  opacity: 1;
+  transform: translateX(-150%);
+  transition: top 0.6s ease, opacity 0.6s ease;
+ }
+
+ #home-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: white;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.7));
+ }
+
+ #home-icon:not(.hideHome) {
+  opacity: 1;
+  transform: translateX(0);
+ }
+
+ .hideHome {
+  opacity: 0;
+  transform: translateX(-150%);
+ }
+
