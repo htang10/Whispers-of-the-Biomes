@@ -22,3 +22,10 @@
     --biome-header-width: 60%;
   }
 }
+
+@media screen and (orientation: landscape) {
+    :root {
+        --bg-width: 100%;
+        --popup-font-size: 0.6rem;
+    }
+}
