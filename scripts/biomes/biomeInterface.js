@@ -3,6 +3,7 @@ function handleBiomeFunct() {
   let biome = getBiome();
   // console.log(page);
   if (biome != undefined) {
+    sessionStorage.setItem("activeBiome", biome); // Keep track of the current active biome
     createSplash(biome);
   } else {
     createSplash("Welcome!");
