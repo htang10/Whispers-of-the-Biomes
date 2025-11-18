@@ -1,3 +1,19 @@
+@media screen and (max-width: 820px) {
+  :root {
+    --bg-width: auto;
+    --popup-font-size: 0.7rem;
+    --splash-text-width: 6rem;
+  }
+}
+
+@media screen and (max-width: 426px) {
+  :root {
+    --popup-width: 10rem;
+    --sticky-btn-width: 7rem;
+    --splash-text-width: 4rem;
+  }
+}
+
 @media (max-width: 320px) {
   :root {
     --prev-offsetX: -1.8em;
@@ -6,25 +22,12 @@
     --next-rotateY: 60deg;
     --btn-scale-inactive: 0.7;
     --biome-header-width: 19rem;
+    --splash-text-width: 2rem;
   }
-}
-
-@media screen and (max-width: 426px) {
-  :root {
-    --popup-width: 10rem;
-    --sticky-btn-width: 7rem;
-  }
-}
-
-@media screen and (max-width: 820px) {
-    :root {
-        --bg-width: auto;
-        --popup-font-size: 0.7rem;
-    }
 }
 
 @media screen and (orientation: landscape) {
-    :root {
-        --bg-width: 100%;
-    }
+  :root {
+    --bg-width: 100%;
+  }
 }
