@@ -94,11 +94,11 @@
 /* https://www.w3schools.com/cssref/func_steps.php */
 
 /* =========================================================
-   4. HEADER + BIOME NAV BUTTONS + SOUND BUTTON + BACK BUTTON
+   4. HEADER + BIOME NAV BUTTONS + SOUND BUTTON
    ---------------------------------------------------------
    Sticky header showing current biome name, left/right
-   navigation buttons to switch biomes, button to toggle sound
-   and button to navigate back to earth. Buttons animate in.
+   navigation buttons to switch biomes, button to toggle sound.
+   Buttons animate in.
    ========================================================= */
 
 /* ---------- Biome interface elements ---------- */
@@ -117,8 +117,6 @@
 .marine {
   --accent: var(--marine-color-bg);
 }
-
-/* ---------- Back Button ---------- */
 
 /* ---------- Sound Button ---------- */
 #mute-btn {
