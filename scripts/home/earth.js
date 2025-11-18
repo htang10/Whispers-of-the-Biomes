@@ -119,12 +119,11 @@ function main() {
     earthGroup.rotation.z = (-23.4 * Math.PI) / 180; // Earth's axial tilt
 
     const loader = new THREE.TextureLoader();
-    const earthMap = loader.load("assets/home/earthmap1k.jpg");
-    const earthSpec = loader.load("assets/home/earthspec1k.jpg");
-    const earthBump = loader.load("assets/home/earthbump1k.jpg");
-    const lightsTexture = loader.load("assets/home/earthlights1k.jpg");
-    const cloudsTexture = loader.load("assets/home/earthcloudmap.jpg");
-
+    const earthMap = loader.load("assets/3D/earthmap1k.jpg");
+    const earthSpec = loader.load("assets/3D/earthspec1k.jpg");
+    const earthBump = loader.load("assets/3D/earthbump1k.jpg");
+    const lightsTexture = loader.load("assets/3D/earthlights1k.jpg");
+    const cloudsTexture = loader.load("assets/3D/earthcloudmap.jpg");
     const earthGeometry = new THREE.SphereGeometry(2, 100, 100);
 
     // Surface layer
