@@ -16,9 +16,15 @@
   }
 }
 
-@media screen and (max-width: 768px) {
-  :root {
-    --bg-width: auto;
-    --biome-header-width: 60%;
-  }
+@media screen and (max-width: 820px) {
+    :root {
+        --bg-width: auto;
+        --popup-font-size: 0.7rem;
+    }
+}
+
+@media screen and (orientation: landscape) {
+    :root {
+        --bg-width: 100%;
+    }
 }

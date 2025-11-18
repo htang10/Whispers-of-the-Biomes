@@ -125,13 +125,29 @@ function setUpIntro() {
 function initBiomeControls() {
   const buttonGroup = document.querySelector("#biomes");
   const biomes = Array.from(buttonGroup.children); // All biome buttons
-  let idx = 0; // Start from the first biome
+  let idx = 1; // Start from the first biome
+  // Restore the last active biome if exists
+  const savedBiome = sessionStorage.getItem("activeBiome");
+  if (savedBiome) {
+    const foundIndex = biomes.findIndex(b => b.id === savedBiome);
+    if (foundIndex !== -1) idx = foundIndex;
+  }
   let content;
 
-  let prev = biomes.at(-1);   // previous biome (wrap-around)
+  let prev = biomes[(idx - 1 + biomes.length) % biomes.length];;   // previous biome (wrap-around)
   let current = biomes[idx];  // active biome
-  let next = biomes[idx + 1]; // next biome
+  let next = biomes[(idx + 1) % biomes.length]; // next biome
+
+  // Styling
+  prev.classList.add("prev");
+  current.classList.add("active");
+  next.classList.add("next");
   
+  // Click navigation
+  prev.addEventListener("click", backward);
+  current.addEventListener("click", redirectHandler);
+  next.addEventListener("click", forward);
+  hideContent();
 
   //* ---------- 2.1 Core Helper Functions ----------\
 
@@ -413,12 +429,6 @@ function initBiomeControls() {
 
     startX = currentX = startY = currentY = 0;
   });
-
-  // Click navigation
-  prev.addEventListener("click", backward);
-  current.addEventListener("click", redirectHandler);
-  next.addEventListener("click", forward);
-  hideContent();
 }
 
 
