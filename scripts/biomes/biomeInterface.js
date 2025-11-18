@@ -5,7 +5,7 @@ function handleBiomeFunct() {
   if (biome != undefined) {
     createSplash(biome);
   } else {
-    createSplash("Welcome");
+    createSplash("Welcome!");
   }
 }
 
@@ -31,8 +31,7 @@ function createSplash(title) {
   splashDiv.className = "splash-div " + title;
   splashDiv.id = "splashDiv";
 
-  splashDiv.innerHTML =
-    "<h2 class='line'>" + (title ? title : "Welcome!") + "</h2>";
+  splashDiv.innerHTML = "<h2 class='line'>" + title + "</h2>"; // will print biome name or "Welcome!"
   document.body.appendChild(splashDiv);
 
   trackPageStatus();
@@ -40,7 +39,7 @@ function createSplash(title) {
 
 function trackPageStatus() {
   // tracking if timer is done and page is loaded
-  let minTime = 4000;
+  let minTime = 2000;
 
   // checks if DOM is loaded
   document.addEventListener("DOMContentLoaded", function () {
@@ -54,8 +53,7 @@ function trackPageStatus() {
 
 function hideSplash() {
   let splashDiv = document.getElementById("splashDiv");
-  splashDiv.classList.add("hide");
-  splashDiv.addEventListener("transitionend", () => splashDiv.remove());
+  splashDiv.addEventListener("animationend", () => splashDiv.remove());
 }
 
 // create sticky elements that will serve as user interface
@@ -69,28 +67,25 @@ function handleButtons() {
   let nextBiome = biomes[(currentIndex + 1) % biomes.length];
   // console.log(prevBiome, nextBiome);
 
-  // creating header element
-  let header = document.createElement("div");
-  header.className = "sticky header hideTop " + biome;
-  header.innerText = biome.toUpperCase();
-  document.body.appendChild(header);
-
   // left btn
   let leftBtn = document.createElement("a");
-  leftBtn.className = "sticky stickyBtn left hideLeft " + prevBiome;
+  leftBtn.className = "stickyBtn left hideLeft " + prevBiome;
   leftBtn.innerText = prevBiome.toUpperCase();
-  leftBtn.href = `./${prevBiome}`;
+  leftBtn.href = `./${prevBiome}.html`;
   document.body.appendChild(leftBtn);
 
   // right btn
   let rightBtn = document.createElement("a");
-  rightBtn.className = "sticky stickyBtn right hideRight " + nextBiome;
+  rightBtn.className = "stickyBtn right hideRight " + nextBiome;
   rightBtn.innerText = nextBiome.toUpperCase();
-  rightBtn.href = `./${nextBiome}`;
+  rightBtn.href = `./${nextBiome}.html`;
   document.body.appendChild(rightBtn);
+  console.log(
+    getComputedStyle(rightBtn).getPropertyValue("--accent"),
+    getComputedStyle(leftBtn).getPropertyValue("--accent")
+  );
 
   setTimeout(() => {
-    header.classList.remove("hideTop");
     leftBtn.classList.remove("hideLeft");
     rightBtn.classList.remove("hideRight");
   }, 2000);

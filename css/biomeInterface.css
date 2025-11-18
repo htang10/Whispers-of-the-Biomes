@@ -12,6 +12,7 @@
   --sticky-btn-width: 10rem;
   --border-width: 0.1rem;
   --btn-radius: 0.75rem;
+  --splash-animation-duration: 1s;
 
   --circle-anchor-name: --blur-circle;
   --circle-width: 1.5rem;
@@ -54,7 +55,7 @@
   backdrop-filter: blur(10px);
   background: rgba(0, 0, 0, 0.6);
   opacity: 1;
-  animation: fadeOut 1s ease forwards;
+  animation: fadeOut var(--splash-animation-duration) ease forwards;
   animation-delay: 3s;
 }
 
@@ -78,8 +79,9 @@
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
-  animation: typing 1s steps(10, end) forwards;
+  animation: typing var(--splash-animation-duration) steps(10, end) forwards;
 }
+/* https://www.w3schools.com/cssref/func_steps.php */
 
 /* =========================================================
    4. HEADER + BIOME NAV BUTTONS
@@ -89,7 +91,6 @@
    ========================================================= */
 
 /* ---------- Biome interface elements ---------- */
-
 .mesa {
   --accent: var(--mesa-color-bg);
 }
@@ -104,46 +105,22 @@
 }
 .marine {
   --accent: var(--marine-color-bg);
-} /* https://www.w3schools.com/cssref/css4_pr_accent-color.php  */
-
-.sticky {
-  position: fixed;
-  z-index: 9998;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: var(--border-width) solid var(--accent);
-  border-radius: var(--btn-radius);
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(1rem);
-}
-
-.sticky:link {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-.sticky:visited {
-  color: var(--accent);
-}
-
-/* ------------------Header ----------------------- */
-
-.header {
-  inset: 0 0 0 0;
-  margin: auto;
-  width: var(--biome-header-width);
-  height: 2.5rem;
-  padding: 0.5rem 2rem;
-  /* transform: translateX(-50%); */
-  transition: top 0.6s ease, opacity 0.6s ease;
 }
 
 /* ---------- Sticky Buttons (Prev/Next) ---------- */
 .stickyBtn {
+  border: var(--border-width) solid var(--accent);
+  border-radius: var(--btn-radius);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(1rem);
   width: var(--sticky-btn-width);
-  bottom: 1rem;
   padding: 0.25rem 1rem;
+  position: fixed;
+  z-index: 9999;
+  bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.6s ease, opacity 0.6s ease;
 }
 
@@ -154,11 +131,20 @@
   border-width: 0.15rem;
 }
 
+.stickyBtn:link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.stickyBtn:visited {
+  color: var(--accent);
+}
+
 .left {
-  left: 20px;
+  left: 1.25rem;
 }
 .right {
-  right: 20px;
+  right: 1.25rem;
 }
 
 .hideLeft {
@@ -168,11 +154,6 @@
 
 .hideRight {
   transform: translateX(150%);
-  opacity: 0;
-}
-
-.hideTop {
-  top: -150%;
   opacity: 0;
 }
 
