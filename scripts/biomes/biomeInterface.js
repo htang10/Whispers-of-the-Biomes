@@ -31,12 +31,8 @@ function createSplash(title) {
   splashDiv.className = "splash-div " + title;
   splashDiv.id = "splashDiv";
 
-  // splash text
-  let splashText = document.createElement("div");
-  splashText.className = "intro";
-  splashText.innerHTML =
+  splashDiv.innerHTML =
     "<h2 class='line'>" + (title ? title : "Welcome!") + "</h2>";
-  splashDiv.appendChild(splashText);
   document.body.appendChild(splashDiv);
 
   trackPageStatus();

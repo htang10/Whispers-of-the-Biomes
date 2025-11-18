@@ -51,24 +51,11 @@
   height: 100%;
   font-size: 2em;
   font-weight: bold;
-  color: #fff;
-  transition: transform 1.5s ease-in-out;
-}
-
-.splash-div.forest {
-  background: var(--forest-color-bg);
-}
-
-.splash-div.hide {
-  transform: translateY(-100%);
-}
-
-#intro {
-  inset: 0;
-  display: grid;
-  justify-content: center;
-  align-items: center;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.6);
   opacity: 1;
+  animation: fadeOut 1s ease forwards;
+  animation-delay: 3s;
 }
 
 /* =========================================================
@@ -79,15 +66,19 @@
    ========================================================= */
 
 .line {
-  position: absolute;
-  inset: auto 0;
+  width: 0;
+  /* max-width: 0; */
+  color: #fff;
+  overflow: hidden;
   margin: var(--intro-text-margin);
-  font-size: var(--font-size-intro);
+  font-size: 10rem;
+  font-weight: bold;
   text-align: center;
   text-transform: uppercase;
-  opacity: 0;
-  animation: fadeInOut var(--intro-animation-duration) ease-in-out
-    var(--intro-transition-duration) forwards;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing 1s steps(10, end) forwards;
 }
 
 /* =========================================================
@@ -139,7 +130,7 @@
 /* ------------------Header ----------------------- */
 
 .header {
-  inset: 0 0 90vh 0;
+  inset: 0 0 0 0;
   margin: auto;
   width: var(--biome-header-width);
   height: 2.5rem;
@@ -310,6 +301,21 @@
     opacity: 1;
   }
   100% {
+    opacity: 0;
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes fadeOut {
+  to {
     opacity: 0;
   }
 }
