@@ -67,6 +67,10 @@ function handleButtons() {
   let nextBiome = biomes[(currentIndex + 1) % biomes.length];
   // console.log(prevBiome, nextBiome);
 
+  // back button to Earth
+  let backBtn = createBackButton();
+  document.body.appendChild(backBtn);
+
   // ambient sound btn
   let soundBtn = document.createElement("button");
   soundBtn.className = "hideRight";
@@ -89,11 +93,45 @@ function handleButtons() {
   document.body.appendChild(rightBtn);
 
   setTimeout(() => {
+    backBtn.classList.remove("hideLeft");
     soundBtn.classList.remove("hideRight");
     leftBtn.classList.remove("hideLeft");
     rightBtn.classList.remove("hideRight");
   }, ANIMATION_DURATION);
 }
+
+function createBackButton() {
+  const link = document.createElement("a");
+  link.href = "../index.html";
+  link.className = "back-button hideLeft";
+
+  // Main div
+  const mainDiv = document.createElement("div");
+  mainDiv.className = "back-button main";
+
+  const mainLabel = document.createElement("span");
+  mainLabel.className = "label";
+  mainLabel.textContent = "↺";
+
+  mainDiv.appendChild(mainLabel);
+
+  // Extended div
+  const extendedDiv = document.createElement("div");
+  extendedDiv.className = "back-button extended";
+
+  const extendedLabel = document.createElement("span");
+  extendedLabel.className = "label";
+  extendedLabel.textContent = "Back to Earth";
+
+  extendedDiv.appendChild(extendedLabel);
+
+  // Put everything together
+  link.appendChild(mainDiv);
+  link.appendChild(extendedDiv);
+
+  return link;
+}
+
 
 /*
     To do:
