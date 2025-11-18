@@ -39,7 +39,7 @@ export function baseSetUpSound(src) {
 }
 
 export function setUpSoundBiome(src) {
-  setInterval(() => {
+  setTimeout(() => {
     baseSetUpSound(src);
   }, ANIMATION_DURATION)
 }
