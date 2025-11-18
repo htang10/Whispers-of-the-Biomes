@@ -10,10 +10,10 @@
 
   --biome-header-width: 25rem;
   --sticky-btn-width: 10rem;
+  --sticky-btn-transition: transform 0.6s ease, opacity 0.6s ease;
   --border-width: 0.1rem;
   --btn-radius: 0.75rem;
   --splash-animation-duration: 1s;
-  --btn-transition: transform 0.6s ease, opacity 0.6s ease;
   --splash-text-width: 10rem;
 
   --circle-anchor-name: --blur-circle;
@@ -120,7 +120,7 @@
 
 /* ---------- Sound Button ---------- */
 #mute-btn {
-  transition: var(--btn-transition);
+  transition: var(--sticky-btn-transition);
 }
 
 /* ---------- Sticky Buttons (Prev/Next) ---------- */
@@ -137,7 +137,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--btn-transition);
+  transition: var(--sticky-btn-transition);
 }
 
 .stickyBtn:hover {
@@ -275,14 +275,18 @@
   left: anchor(right);
 }
 
+
 /* =========================================================
    8. BACK BUTTON TO HOME PAGE
    ========================================================= */
-
+   
+  
+a.back-button {
+  inset: var(--back-btn-position);
+}
 
 .back-button {
   position: fixed;
-  inset: var(--back-btn-position);
   width: var(--back-btn-size);
   height: var(--back-btn-size);
   overflow: hidden;
@@ -322,16 +326,19 @@
 
 .back-button:hover {
   width: var(--back-btn-extended-length);
-  .main {
-    transform: rotateZ(-360deg);
-  }
-  .extended {
-    width: var(--back-btn-extended-length);
-    opacity: 1;
-  }
-  .extended .label {
-    transform: translateX(0);  
-  }
+}
+
+.back-button:hover .main {
+  transform: rotateZ(-360deg);
+}
+
+.back-button:hover .extended {
+  width: var(--back-btn-extended-length);
+  opacity: 1;
+}
+
+.back-button:hover .extended .label {
+  transform: translateX(0);
 }
 
 
