@@ -40,7 +40,7 @@
 // 0. GLOBAL CONSTANTS AND IMPORTS
 // ======================================================
 
-import { setUpSound } from "../utils/sound.js";
+import { baseSetUpSound } from "../utils/sound.js";
 
 const INTRO_FADE_OUT = 4000;                      // Duration (ms) of the fading out effect before hiding intro
 const INTRO_TOTAL = 9000;                         // Total animation time for the intro scene before fading starts
@@ -440,5 +440,5 @@ function initBiomeControls() {
 document.addEventListener("DOMContentLoaded", () => {
   setUpIntro();
   initBiomeControls();
-  setUpSound(AUDIO_SOURCE);
+  baseSetUpSound(AUDIO_SOURCE);
 });
