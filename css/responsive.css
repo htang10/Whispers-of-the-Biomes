@@ -1,21 +1,24 @@
 @media (max-width: 320px) {
-    :root {
-        --prev-offsetX: -1.8em;
-        --prev-rotateY: -60deg;
-        --next-offsetX: 1.8em;
-        --next-rotateY: 60deg;
-        --btn-scale-inactive: 0.7;
-    }
+  :root {
+    --prev-offsetX: -1.8em;
+    --prev-rotateY: -60deg;
+    --next-offsetX: 1.8em;
+    --next-rotateY: 60deg;
+    --btn-scale-inactive: 0.7;
+    --biome-header-width: 19rem;
+  }
 }
 
 @media screen and (max-width: 426px) {
-    :root {
-        --popup-width: 10rem;
-    }
+  :root {
+    --popup-width: 10rem;
+    --sticky-btn-width: 7rem;
+  }
 }
 
 @media screen and (max-width: 768px) {
-    :root {
-        --bg-width: auto;
-    }
+  :root {
+    --bg-width: auto;
+    --biome-header-width: 60%;
+  }
 }
