@@ -301,6 +301,7 @@ function initBiomeControls() {
     current.removeEventListener("click", targetEvent);
     current.addEventListener("click", redirectHandler);
     current.classList.add("active");
+    sessionStorage.setItem("activeBiome", current.id);
     hideContent(); // always hide the text content of the currently active biome
   }
 
