@@ -125,7 +125,7 @@ function setUpIntro() {
 function initBiomeControls() {
   const buttonGroup = document.querySelector("#biomes");
   const biomes = Array.from(buttonGroup.children); // All biome buttons
-  let idx = 1; // Start from the first biome
+  let idx = 0; // Start from the first biome
   // Restore the last active biome if exists
   const savedBiome = sessionStorage.getItem("activeBiome");
   if (savedBiome) {
