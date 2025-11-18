@@ -1,3 +1,5 @@
+export const ANIMATION_DURATION = 2000;
+
 // handle the biome interface
 function handleBiomeFunct() {
   let biome = getBiome();
@@ -39,16 +41,13 @@ function createSplash(title) {
 }
 
 function trackPageStatus() {
-  // tracking if timer is done and page is loaded
-  let minTime = 2000;
-
   // checks if DOM is loaded
   document.addEventListener("DOMContentLoaded", function () {
     // hide splash after minimum time and if page is loaded
     setTimeout(() => {
       hideSplash();
       handleButtons();
-    }, minTime);
+    }, ANIMATION_DURATION);
   });
 }
 
@@ -68,6 +67,13 @@ function handleButtons() {
   let nextBiome = biomes[(currentIndex + 1) % biomes.length];
   // console.log(prevBiome, nextBiome);
 
+  // ambient sound btn
+  let soundBtn = document.createElement("button");
+  soundBtn.className = "hideRight";
+  soundBtn.id = "mute-btn";
+  soundBtn.textContent = "🔇";
+  document.body.appendChild(soundBtn);
+
   // left btn
   let leftBtn = document.createElement("a");
   leftBtn.className = "stickyBtn left hideLeft " + prevBiome;
@@ -81,15 +87,12 @@ function handleButtons() {
   rightBtn.innerText = nextBiome.toUpperCase();
   rightBtn.href = `./${nextBiome}.html`;
   document.body.appendChild(rightBtn);
-  console.log(
-    getComputedStyle(rightBtn).getPropertyValue("--accent"),
-    getComputedStyle(leftBtn).getPropertyValue("--accent")
-  );
 
   setTimeout(() => {
+    soundBtn.classList.remove("hideRight");
     leftBtn.classList.remove("hideLeft");
     rightBtn.classList.remove("hideRight");
-  }, 2000);
+  }, ANIMATION_DURATION);
 }
 
 /*

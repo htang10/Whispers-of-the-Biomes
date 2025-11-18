@@ -238,7 +238,7 @@ canvas {
    ========================================================= */
 
 
-#mute-btn {
+/* #mute-btn {
     position: fixed;
     inset: 1rem 1rem auto auto;
     display: flex;
@@ -251,7 +251,7 @@ canvas {
     background-color: transparent;
     border: none;
     cursor: pointer;
-}
+} */
 
 
 /* =========================================================

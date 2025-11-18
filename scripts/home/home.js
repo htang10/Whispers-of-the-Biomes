@@ -32,15 +32,15 @@
 // 0. Global Constants
 // 1. Intro Scene Setup
 // 2. Biome Navigation Control
-// 3. Ambient Sound Control
-// 4. Initialization
+// 3. Initialization
 // ======================================================
 
 
 // ======================================================
-// 0. GLOBAL CONSTANTS
+// 0. GLOBAL CONSTANTS AND IMPORTS
 // ======================================================
 
+import { setUpSound } from "../utils/sound.js";
 
 const INTRO_FADE_OUT = 4000;                      // Duration (ms) of the fading out effect before hiding intro
 const INTRO_TOTAL = 9000;                         // Total animation time for the intro scene before fading starts
@@ -125,7 +125,7 @@ function setUpIntro() {
 function initBiomeControls() {
   const buttonGroup = document.querySelector("#biomes");
   const biomes = Array.from(buttonGroup.children); // All biome buttons
-  let idx = 1; // Start from the first biome
+  let idx = 0; // Start from the first biome
   // Restore the last active biome if exists
   const savedBiome = sessionStorage.getItem("activeBiome");
   if (savedBiome) {
@@ -433,56 +433,12 @@ function initBiomeControls() {
 
 
 // ======================================================
-// 3. AMBIENT SOUND CONTROL
-// ======================================================
-
-
-/**
- * Initializes and controls the ambient background sound for the homepage.
- *
- * Creates an Audio object on first user interaction (unmuting) to comply
- * with browser autoplay restrictions. The audio loops continuously in
- * the background and can be muted or unmuted without pausing playback.
- * Updates the mute button icon dynamically to reflect the current state.
- *
- * Logic Flow:
- *   1. Wait for user to click the mute button (first interaction)
- *   2. Create and configure the Audio object (loop, volume, muted)
- *   3. Toggle the mute state on each click
- *   4. Update the mute icon (🔇 / 🔊) accordingly
- *
- * @returns {void}
- */
-function setUpSound() {
-  const muteBtn = document.getElementById("mute-btn");
-  if (!muteBtn) return; // Exit early if mute button is missing
-
-  let audio;
-
-  muteBtn.addEventListener("click", () => {
-    if (!audio) {
-      audio = new Audio(AUDIO_SOURCE);
-      audio.loop = true;
-      audio.volume = 1;
-      audio.muted = true;
-    }
-
-    audio.muted = !audio.muted;
-    muteBtn.textContent = audio.muted ? "🔇" : "🔊";
-    if (!audio.muted) {
-      audio.play();
-    }
-  });
-}
-
-
-// ======================================================
-// 4. INITIALIZATION
+// 3. INITIALIZATION
 // ======================================================
 
 
 document.addEventListener("DOMContentLoaded", () => {
   setUpIntro();
   initBiomeControls();
-  setUpSound();
+  setUpSound(AUDIO_SOURCE);
 });
