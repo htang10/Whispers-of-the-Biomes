@@ -1,4 +1,4 @@
-export const ANIMATION_DURATION = 2000;
+const ANIMATION_DURATION = 2000;
 
 // handle the biome interface
 function handleBiomeFunct() {

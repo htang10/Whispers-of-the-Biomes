@@ -1,4 +1,4 @@
-import { ANIMATION_DURATION } from "../biomes/biomeInterface.js"
+const ANIMATION_DURATION = 4000;
 
 /**
  * Initializes and controls the ambient background sound for the homepage.
@@ -16,26 +16,30 @@ import { ANIMATION_DURATION } from "../biomes/biomeInterface.js"
  *
  * @returns {void}
  */
-export function setUpSound(src) {
+export function baseSetUpSound(src) {
+  const muteBtn = document.getElementById("mute-btn");
+  if (!muteBtn) return; // Exit early if mute button is missing
+  
+  let audio;
+  
+  muteBtn.addEventListener("click", () => {
+    if (!audio) {
+      audio = new Audio(src);
+      audio.loop = true;
+      audio.volume = 1;
+      audio.muted = true;
+    }
+    
+    audio.muted = !audio.muted;
+    muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+    if (!audio.muted) {
+      audio.play();
+    }
+  });
+}
+
+export function setUpSoundBiome(src) {
   setInterval(() => {
-    const muteBtn = document.getElementById("mute-btn");
-    if (!muteBtn) return; // Exit early if mute button is missing
-    
-    let audio;
-    
-    muteBtn.addEventListener("click", () => {
-      if (!audio) {
-        audio = new Audio(src);
-        audio.loop = true;
-        audio.volume = 1;
-        audio.muted = true;
-      }
-      
-      audio.muted = !audio.muted;
-      muteBtn.textContent = audio.muted ? "🔇" : "🔊";
-      if (!audio.muted) {
-        audio.play();
-      }
-    });
-  }, ANIMATION_DURATION * 2)
+    baseSetUpSound(src);
+  }, ANIMATION_DURATION)
 }
