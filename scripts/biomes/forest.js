@@ -1,7 +1,7 @@
 import { setUpSoundBiome } from "../utils/sound.js";
 import { createBlurCircle } from "./biomeInterface.js";
 
-const AUDIO_SOURCE = "../../assets/forest/forest-bg-music.m4a";
+const AUDIO_SOURCE = "../assets/ambient-sound/forest-bg-music.m4a";
 const TREE = "This is a majestic oak tree, standing tall and proud in the heart of the forest.";
 
 setUpSoundBiome(AUDIO_SOURCE);
