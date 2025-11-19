@@ -28,6 +28,16 @@ const BIOME_INTERACTABLES = [
         yPercent: 58, 
         text: "A fox treads silently through the forest, its movements are smooth and alert."
     },
+    {
+        xPercent: 34, 
+        yPercent: 90, 
+        text: "Frog."
+    },
+    {
+        xPercent: 87, 
+        yPercent: 5, 
+        text: "Owl."
+    },
 ]
 
 setUpSoundBiome(AUDIO_SOURCE);
