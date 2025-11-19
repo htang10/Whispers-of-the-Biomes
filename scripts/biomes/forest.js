@@ -2,8 +2,13 @@ import { setUpSoundBiome } from "../utils/sound.js";
 import { createBlurCircle } from "./biomeInterface.js";
 
 const AUDIO_SOURCE = "../assets/ambient-sound/forest-bg-music.m4a";
-const TREE = "This is a majestic oak tree, standing tall and proud in the heart of the forest.";
+const BIOME_INTERACTABLES = [
+    {
+        xPercent: 75, 
+        yPercent: 65, 
+        text: "This is a majestic oak tree, standing tall and proud in the heart of the forest."
+    }
+]
 
 setUpSoundBiome(AUDIO_SOURCE);
-createBlurCircle(75, 65, TREE);
-createBlurCircle(90, 30, TREE);
+BIOME_INTERACTABLES.forEach((circle) => createBlurCircle(circle.xPercent, circle.yPercent, circle.text));
