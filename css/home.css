@@ -231,31 +231,7 @@ canvas {
 
 
 /* =========================================================
-   5. MUTE BUTTON
-   ---------------------------------------------------------
-   Styles the mute toggle positioned at the top-right corner
-   for controlling background ambient sound.
-   ========================================================= */
-
-
-/* #mute-btn {
-    position: fixed;
-    inset: 1rem 1rem auto auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    height: fit-content;
-    margin: auto;
-    font-size: 2rem;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-} */
-
-
-/* =========================================================
-   6. BIOME THEMES
+   5. BIOME THEMES
    ---------------------------------------------------------
    Defines background colors and theme-specific styles for
    each biome (Forest, Mesa, Caldera, Marine, Tundra).
@@ -289,7 +265,7 @@ canvas {
 
 
 /* =========================================================
-   7. ANIMATIONS
+   6. ANIMATIONS
    ---------------------------------------------------------
    Declares keyframes and transition timing used for button
    reveals, intro fade, and biome entry effects.
