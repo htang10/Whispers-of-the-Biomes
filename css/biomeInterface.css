@@ -20,8 +20,8 @@
   --circle-width: 1.5rem;
   --circle-height: 1.5rem;
   --circle-radius: 1rem;
-  --circle-color: rgba(255, 255, 255, 0.2);
-  --circle-color-hover: rgba(255, 255, 255, 0.4);
+  --circle-color: rgba(255, 255, 255, 0.3);
+  --circle-color-hover: rgba(255, 255, 255, 0.5);
   --circle-blur-hover: 0.125rem;
   --circle-scale-active: 1.25;
   --circle-animation-duration: 0.3s;
