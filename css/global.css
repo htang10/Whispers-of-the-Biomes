@@ -75,7 +75,7 @@ body {
 
 #mute-btn {
     position: fixed;
-    inset: 1rem 1rem auto auto;
+    inset: 1.5rem 1rem auto auto;
     display: flex;
     justify-content: center;
     align-items: center;
