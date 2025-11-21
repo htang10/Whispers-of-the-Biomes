@@ -27,7 +27,7 @@ const HOTSPOTS = [
         xPercent: 61.5,
         yPercent: 30,
         text: `Bioluminescent life is more common than we think. In deep water, glowing organisms are everywhere,
-        using light to attract prey, confuse predators, or communicate`
+        using light to attract prey, confuse predators, or communicate.`
     },
     {
         xPercent: 40,
