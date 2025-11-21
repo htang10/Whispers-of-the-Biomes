@@ -1,14 +1,14 @@
 @media screen and (max-width: 820px) {
   :root {
     --bg-width: auto;
-    --popup-font-size: 0.7rem;
+    --popup-font-size: 0.9rem;
     --splash-text-width: 6rem;
   }
 }
 
 @media screen and (max-width: 426px) {
   :root {
-    --popup-width: 10rem;
+    --popup-width: 13rem;
     --sticky-btn-width: 7rem;
     --splash-text-width: 4rem;
   }
