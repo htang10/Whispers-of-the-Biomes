@@ -45,7 +45,7 @@ import { baseSetUpSound } from "../utils/sound.js";
 const INTRO_FADE_OUT = 4000;                      // Duration (ms) of the fading out effect before hiding intro
 const INTRO_TOTAL = 9000;                         // Total animation time for the intro scene before fading starts
 const UI_LOCKED_DURATION = 500;                   // Duration (ms) to lock UI during biome transitions, ensuring smoothness
-const AUDIO_SOURCE = "assets/ambient-sound/home-bg-music.m4a";  // Path to the ambient background audio file
+const AUDIO_SOURCE = "assets/ambient-sound/home-audio.m4a";  // Path to the ambient background audio file
 
 
 // ======================================================

@@ -1,7 +1,7 @@
 import { setUpSoundBiome } from "../utils/sound.js";
 import { createBlurCircle } from "./biomeInterface.js";
 
-const AUDIO_SOURCE = "../assets/ambient-sound/mesa-bg-music.m4a";
+const AUDIO_SOURCE = "../assets/ambient-sound/mesa-audio.m4a";
 const HOTSPOTS = [
     {
         xPercent: 70,
