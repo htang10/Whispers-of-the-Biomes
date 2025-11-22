@@ -2,15 +2,13 @@
    0. RESET
    ========================================================= */
 
-
-@import url('https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap");
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
 
 /* =========================================================
    1. ROOT VARIABLES
@@ -18,52 +16,48 @@
    Define shared design tokens (fonts, colors, base sizes)
    ========================================================= */
 
-
 :root {
-    /* --- Font & Typography --- */
-    --font-family: "Darumadrop One", sans-serif;
-    --font-weight: 300;
-    --line-height: 1.6;
-    --letter-spacing: 1px;
-    --font-size-base: 16px;
-    --font-size-intro: 3rem;
+  /* --- Font & Typography --- */
+  --font-family: "Darumadrop One", sans-serif;
+  --font-weight: 300;
+  --line-height: 1.6;
+  --letter-spacing: 1px;
+  --font-size-base: 16px;
+  --font-size-intro: 3rem;
 
-    /* --- Layout dimensions --- */
-    --intro-text-margin: 0 max(0.625rem, 10%);
+  /* --- Layout dimensions --- */
+  --intro-text-margin: 0 max(0.625rem, 10%);
 
-    /* --- Global Colors --- */
-    --main-color-text: #ffffff;
-    --main-color-bg: #000000;
-    --forest-color-bg: rgb(34, 139, 34);
-    --mesa-color-bg: rgb(188, 161, 119);
-    --caldera-color-bg: rgb(229,101,32);
-    --marine-color-bg: rgb(53, 96, 149);
-    --tundra-color-bg: rgb(135,142,205);
+  /* --- Global Colors --- */
+  --main-color-text: #ffffff;
+  --main-color-bg: #000000;
+  --forest-color-bg: rgb(59, 168, 59);
+  --mesa-color-bg: rgb(188, 161, 119);
+  --caldera-color-bg: rgb(229, 101, 32);
+  --marine-color-bg: rgb(71, 148, 242);
+  --tundra-color-bg: rgb(135, 142, 205);
 
-    /* --- Timing & Animation control --- */
-    --intro-animation-duration: 4s;
-    --intro-transition-duration: 1s;
+  /* --- Timing & Animation control --- */
+  --intro-animation-duration: 4s;
+  --intro-transition-duration: 1s;
 }
-
 
 /* =========================================================
    2. GLOBAL TYPOGRAPHY & BASE STYLES
    ========================================================= */
 
-
 html {
-    font-size: var(--font-size-base);
+  font-size: var(--font-size-base);
 }
 
 body {
-    font-family: var(--font-family);
-    font-weight: var(--font-weight);
-    line-height: var(--line-height);
-    letter-spacing: var(--letter-spacing);
-    color: var(--main-color-text);
-    background-color: var(--main-color-bg);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight);
+  line-height: var(--line-height);
+  letter-spacing: var(--letter-spacing);
+  color: var(--main-color-text);
+  background-color: var(--main-color-bg);
 }
-
 
 /* =========================================================
    3. MUTE BUTTON
@@ -72,21 +66,19 @@ body {
    for controlling background ambient sound.
    ========================================================= */
 
-
 #mute-btn {
-    position: fixed;
-    inset: 1.5rem 1rem auto auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    height: fit-content;
-    margin: auto;
-    font-size: 2rem;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+  position: fixed;
+  inset: 1.5rem 1rem auto auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+  font-size: 2rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
-
 
 /* ===== END OF FILE ===== */

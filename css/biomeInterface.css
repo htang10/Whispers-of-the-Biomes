@@ -11,7 +11,7 @@
   --biome-header-width: 25rem;
   --sticky-btn-width: 10rem;
   --sticky-btn-transition: transform 0.5s ease, opacity 0.5s ease;
-  --border-width: 0.1rem;
+  --border-width: 0.15rem;
   --btn-radius: 0.75rem;
   --splash-animation-duration: 1s;
   --splash-text-width: 10rem;
@@ -130,7 +130,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(1rem);
   width: var(--sticky-btn-width);
-  padding: 0.25rem 1rem;
+  padding: 0.5rem 1rem;
   position: fixed;
   z-index: 9999;
   bottom: 1rem;
@@ -144,7 +144,7 @@
   background-color: rgba(0, 0, 0, 0.9);
   /* text-decoration: underline; */
   transform: scale(1.05) translateY(-0.1rem);
-  border-width: 0.15rem;
+  /* border-width: 0.2rem; */
 }
 
 .stickyBtn:link {
@@ -275,12 +275,10 @@
   left: anchor(right);
 }
 
-
 /* =========================================================
    8. BACK BUTTON TO HOME PAGE
    ========================================================= */
-   
-  
+
 a.back-button {
   inset: var(--back-btn-position);
 }
@@ -297,7 +295,8 @@ a.back-button {
   cursor: pointer;
 }
 
-.main, .extended {
+.main,
+.extended {
   display: flex;
   align-items: center;
   background-color: var(--back-btn-color);
@@ -340,7 +339,6 @@ a.back-button {
 .back-button:hover .extended .label {
   transform: translateX(0);
 }
-
 
 /* =========================================================
    9. KEYFRAMES
