@@ -1,7 +1,7 @@
 import { setUpSoundBiome } from "../utils/sound.js";
 import { createBlurCircle } from "./biomeInterface.js";
 
-const AUDIO_SOURCE = "../assets/ambient-sound/tundra-bg-music.m4a";
+const AUDIO_SOURCE = "../assets/ambient-sound/tundra-audio.m4a";
 const HOTSPOTS = [
     {
         xPercent: 30,
