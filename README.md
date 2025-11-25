@@ -25,7 +25,7 @@ This project is built using HTML, CSS, and JavaScript (no external libraries/fra
 
 ## 🖥️ Demo
 
-[![Demo Video](assets/demo/thumbnail.png)](assets/demo/demo-video.mp4)
+<video controls src="assets/demo/demo-video.mp4" title="Title"></video>
 
 ## ✨ Features
 
