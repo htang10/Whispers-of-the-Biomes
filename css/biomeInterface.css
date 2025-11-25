@@ -1,0 +1,391 @@
+/* =========================================================
+   1. ROOT VARIABLES
+   ---------------------------------------------------------
+   Shared sizing tokens for blur circles, popups, and
+   background scaling on biome interface pages.
+   ========================================================= */
+
+:root {
+  --bg-width: 100%;
+
+  --biome-header-width: 25rem;
+  --sticky-btn-width: 10rem;
+  --sticky-btn-transition: transform 0.5s ease, opacity 0.5s ease;
+  --border-width: 0.15rem;
+  --btn-radius: 0.75rem;
+  --splash-animation-duration: 1s;
+  --splash-text-width: 10rem;
+
+  --circle-anchor-name: --blur-circle;
+  --circle-width: 1.5rem;
+  --circle-height: 1.5rem;
+  --circle-radius: 1rem;
+  --circle-color: rgba(255, 255, 255, 0.2);
+  --circle-color-hover: rgba(255, 255, 255, 0.4);
+  --circle-blur-hover: 0.125rem;
+  --circle-scale-active: 1.25;
+  --circle-animation-duration: 0.3s;
+
+  --popup-width: 17rem;
+  --popup-height: 10rem;
+  --popup-font-size: 1rem;
+  --popup-color: rgba(0, 0, 0, 0.4);
+  --popup-padding: 0.75rem 1.4rem;
+  --popup-radius: 1rem;
+  --popup-animation-duration: 0.3s;
+
+  --back-btn-position: 1.5rem auto auto 1rem;
+  --back-btn-size: 2.5rem;
+  --back-btn-color: rgba(255, 255, 255, 0.2);
+  --back-btn-border: 0.1875rem solid rgba(255, 255, 255, 0.25);
+  --back-btn-blur: blur(1rem);
+  --back-btn-transition: all 0.5s ease-out;
+  --back-btn-extended-length: 10.7rem;
+}
+
+/* =========================================================
+   2. SPLASH SCREEN
+   ---------------------------------------------------------
+   Temporary intro splash shown when entering a biome.
+   Includes fade-out transition before UI elements load in.
+   ========================================================= */
+
+/* ---------- Base Splash Styles ---------- */
+.splash-div {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 2em;
+  font-weight: bold;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 1;
+  animation: fadeOut var(--splash-animation-duration) ease forwards;
+  animation-delay: 3s;
+}
+
+/* =========================================================
+   3. SPLASH TEXT
+   ---------------------------------------------------------
+   Text animations for biome titles appearing on splash.
+   Matches animation timing with global intro behavior.
+   ========================================================= */
+
+.line {
+  width: 0;
+  /* max-width: 0; */
+  color: #fff;
+  overflow: hidden;
+  margin: var(--intro-text-margin);
+  font-size: var(--splash-text-width);
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing var(--splash-animation-duration) steps(10, end) forwards;
+}
+/* https://www.w3schools.com/cssref/func_steps.php */
+
+/* =========================================================
+   4. HEADER + BIOME NAV BUTTONS + SOUND BUTTON
+   ---------------------------------------------------------
+   Sticky header showing current biome name, left/right
+   navigation buttons to switch biomes, button to toggle sound.
+   Buttons animate in.
+   ========================================================= */
+
+/* ---------- Biome interface elements ---------- */
+.mesa {
+  --accent: var(--mesa-color-bg);
+}
+.tundra {
+  --accent: var(--tundra-color-bg);
+}
+.forest {
+  --accent: var(--forest-color-bg);
+}
+.caldera {
+  --accent: var(--caldera-color-bg);
+}
+.marine {
+  --accent: var(--marine-color-bg);
+}
+
+/* ---------- Sound Button ---------- */
+#mute-btn {
+  transition: var(--sticky-btn-transition);
+}
+
+/* ---------- Sticky Buttons (Prev/Next) ---------- */
+.stickyBtn {
+  border: var(--border-width) solid var(--accent);
+  border-radius: var(--btn-radius);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(1rem);
+  width: var(--sticky-btn-width);
+  padding: 0.5rem 1rem;
+  position: fixed;
+  z-index: 9999;
+  bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--sticky-btn-transition);
+}
+
+.stickyBtn,
+.stickyBtn * {
+  /* To remove user drag (still drags on firefox.. but what DOESN'T it do on firefox lol) */
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.stickyBtn * {
+  pointer-events: none;
+}
+
+.stickyBtn:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+  /* text-decoration: underline; */
+  transform: scale(1.05) translateY(-0.1rem);
+  /* border-width: 0.2rem; */
+}
+
+.stickyBtn:link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.stickyBtn:visited {
+  color: var(--accent);
+}
+
+.left {
+  left: 1.25rem;
+}
+.right {
+  right: 1.25rem;
+}
+
+.hideLeft {
+  transform: translateX(-150%);
+  opacity: 0;
+}
+
+.hideRight {
+  transform: translateX(150%);
+  opacity: 0;
+}
+
+/* =========================================================
+   5. BACKGROUND IMAGE CONTAINER
+   ---------------------------------------------------------
+   Scrollable horizontal container for biome artwork. JS
+   centers the image horizontally on load + resize.
+   ========================================================= */
+
+.bg-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+.bg-image {
+  width: var(--bg-width);
+  height: 100%;
+}
+
+/* =========================================================
+   6. INTERACTIVE BLUR CIRCLES
+   ---------------------------------------------------------
+   Clickable hint markers with blur + hover effects.
+   Position set dynamically using percentage coordinates.
+   ========================================================= */
+
+.blur-circle {
+  position: absolute;
+  anchor-name: var(--circle-anchor-name);
+  width: var(--circle-width);
+  height: var(--circle-height);
+  background-color: var(--circle-color);
+  border-radius: var(--circle-radius);
+  transition: all var(--circle-animation-duration) ease-in-out;
+  cursor: pointer;
+}
+
+.blur-circle:hover {
+  background-color: var(--circle-color-hover);
+  backdrop-filter: blur(--circle-blur-hover);
+}
+
+.blur-circle:active {
+  transform: scale(var(--circle-scale-active));
+}
+
+/* =========================================================
+   7. POPUP TOOLTIP BOX
+   ---------------------------------------------------------
+   Auto-positioning descriptive popup that adapts location
+   depending on available space using CSS anchor positioning.
+   ========================================================= */
+
+.circle-popup {
+  position: absolute;
+  top: anchor(bottom);
+  left: anchor(right);
+  position-anchor: var(--circle-anchor-name);
+  position-try-fallbacks: --below-right, --below-left, --above-left,
+    --above-right;
+  min-width: var(--popup-width);
+  max-width: var(--popup-height);
+  padding: var(--popup-padding);
+  font-size: var(--popup-font-size);
+  background-color: var(--popup-color);
+  border-radius: var(--popup-radius);
+  opacity: 0;
+  transition: all var(--popup-animation-duration) ease-out;
+  cursor: default;
+  pointer-events: none;
+}
+
+.circle-popup.visible {
+  opacity: 1;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+@position-try --below-right {
+  inset: unset;
+  top: anchor(bottom);
+  left: anchor(right);
+}
+
+@position-try --below-left {
+  inset: unset;
+  top: anchor(bottom);
+  right: anchor(left);
+}
+
+@position-try --above-left {
+  inset: unset;
+  bottom: anchor(top);
+  right: anchor(left);
+}
+
+@position-try --above-right {
+  inset: unset;
+  bottom: anchor(top);
+  left: anchor(right);
+}
+
+/* =========================================================
+   8. BACK BUTTON TO HOME PAGE
+   ========================================================= */
+
+a.back-button {
+  inset: var(--back-btn-position);
+}
+
+.back-button {
+  position: fixed;
+  width: var(--back-btn-size);
+  height: var(--back-btn-size);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--main-color-text);
+  border-radius: 2rem;
+  transition: var(--back-btn-transition);
+  cursor: pointer;
+}
+
+.main,
+.extended {
+  display: flex;
+  align-items: center;
+  background-color: var(--back-btn-color);
+  border: var(--back-btn-border);
+  backdrop-filter: var(--back-btn-blur);
+  pointer-events: none;
+}
+
+.main {
+  z-index: 1;
+  justify-content: center;
+  transition: var(--back-btn-transition);
+}
+
+.extended {
+  justify-content: right;
+  padding-right: 1rem;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.extended .label {
+  transform: translateX(100%);
+  transition: var(--back-btn-transition);
+}
+
+.back-button:hover {
+  width: var(--back-btn-extended-length);
+}
+
+.back-button:hover .main {
+  transform: rotateZ(-360deg);
+}
+
+.back-button:hover .extended {
+  width: var(--back-btn-extended-length);
+  opacity: 1;
+}
+
+.back-button:hover .extended .label {
+  transform: translateX(0);
+}
+
+/* =========================================================
+   9. KEYFRAMES
+   ---------------------------------------------------------
+   Shared animation used for splash text fade-in/out cycle.
+   ========================================================= */
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}

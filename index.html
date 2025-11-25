@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whispers of the Biomes</title>
+  <link rel="icon" type="image/png" href="assets/favicon/earth.png">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script type="importmap" defer>
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="scripts/home/home.js" defer></script>
+  <script type="module" src="scripts/home/earth.js" defer></script>
+</head>
+<body>
+  <div id="intro">
+    <p class="line">Every living being has its own voice...</p>
+    <p class="line">Let the voice lead your path, traveler.</p>
+  </div>
+  <canvas id="earth"></canvas>
+  <div id="biomes" class="slider">
+    <div id="forest" data-label="Forest" icon-label="🌳" class="item">Forest</div>
+    <div id="mesa" data-label="Mesa" icon-label="🏜️" class="item">Mesa</div>
+    <div id="caldera" data-label="Caldera" icon-label="🌋" class="item">Caldera</div>
+    <div id="marine" data-label="Marine" icon-label="🪼" class="item">Marine</div>
+    <div id="tundra" data-label="Tundra" icon-label="🗻" class="item">Tundra</div>
+  </div>
+  <button id="mute-btn">🔇</button>
+</body>
+</html>
