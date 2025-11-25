@@ -1,6 +1,14 @@
 const ANIMATION_DURATION = 2000;
 
-// handle the biome interface
+/**
+ * Handles the biome interface upon page enter
+ *
+ * 1. First calls the getBiome method to get the biome name
+ * 2. Sets a cookie to keep track of current active biome
+ * 3. Creates a splash based on the current biome
+ *
+ * @returns {void}
+ */
 function handleBiomeFunct() {
   let biome = getBiome();
   // console.log(page);
@@ -14,7 +22,11 @@ function handleBiomeFunct() {
 
 handleBiomeFunct();
 
-// get the current biome page
+/**
+ * Gets the biome name from the page's document title
+ *
+ * @returns page // biome name
+ */
 function getBiome() {
   let biomes = ["forest", "mesa", "caldera", "marine", "tundra"];
   let title = document.title.toLowerCase(); // normalize case
@@ -27,6 +39,12 @@ function getBiome() {
   return page;
 }
 
+/**
+ * Creates a dynamic splash screen that displays the biome title
+ *
+ * @param title // the biome name retrieved from the document title
+ * @returns {void}
+ */
 // create splash screen that serves as loading page
 function createSplash(title) {
   // create splash screen div
@@ -40,6 +58,11 @@ function createSplash(title) {
   trackPageStatus();
 }
 
+/**
+ * Checks to see if document is loaded, and sets a timer to remove the dynamically created splash and also show interface buttons
+ *
+ * @returns {void}
+ */
 function trackPageStatus() {
   // checks if DOM is loaded
   document.addEventListener("DOMContentLoaded", function () {
@@ -56,6 +79,18 @@ function hideSplash() {
   splashDiv.addEventListener("animationend", () => splashDiv.remove());
 }
 
+/**
+ * Dynamically creates interface buttons
+ *
+ * Logic Flow:
+ *  1. Find current biome
+ *  2. Determine the previous and next biomes within the list
+ *  3. Create two links that will direct to those biome pages
+ *  4. Create a mute button that handles sound, and calls a method to create a button to lead back to home page
+ *  5. After a timer, add class to buttons to stop hiding them off the page
+ *
+ * @returns {void}
+ */
 // create sticky elements that will serve as user interface
 function handleButtons() {
   let biomes = ["forest", "mesa", "caldera", "marine", "tundra"];
@@ -131,18 +166,6 @@ function createBackButton() {
 
   return link;
 }
-
-
-/*
-    To do:
-        - Create sticky button functionality
-        - Create get Biome function
-        - Create css page
-        - Adjust the splash timer to act as loading screen
-        - Adjust zoom
-        - Add to git and merge
-        - OPTIONAL: adjust styling
-*/
 
 /**
  * Creates an interactive blurred circle with a descriptive popup.

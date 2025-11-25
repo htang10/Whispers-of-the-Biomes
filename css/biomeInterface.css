@@ -140,6 +140,20 @@
   transition: var(--sticky-btn-transition);
 }
 
+.stickyBtn,
+.stickyBtn * {
+  /* To remove user drag (still drags on firefox.. but what DOESN'T it do on firefox lol) */
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.stickyBtn * {
+  pointer-events: none;
+}
+
 .stickyBtn:hover {
   background-color: rgba(0, 0, 0, 0.9);
   /* text-decoration: underline; */
