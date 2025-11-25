@@ -14,10 +14,7 @@
 [![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![Threejs](https://img.shields.io/badge/threejs-black?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
 
-[![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/en)
 [![Github Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)](https://docs.github.com/en/pages)
-
-
 
 ## 🌿 Overview
 
@@ -28,8 +25,7 @@ This project is built using HTML, CSS, and JavaScript (no external libraries/fra
 
 ## 🖥️ Demo
 
-Insert gif or link to demo
-
+[![Demo Video](assets/demo/thumbnail.png)](assets/demo/demo-video.mp4)
 
 ## ✨ Features
 
@@ -52,41 +48,12 @@ Please navigate here to start the experience.
 
 [Whispers of the Biomes](https://htang10.github.io/Whispers-of-the-Biomes/)
 
-
-## 💻 Run Locally
-
-Clone the project
-
-```bash
-  git clone https://link-to-project
-```
-
-Go to the project directory
-
-```bash
-  cd my-project
-```
-
-Install dependencies
-
-```bash
-  npm install
-```
-
-Start the server
-
-```bash
-  npm run start
-```
-
-
 ## 👥 Authors
 
 - [Huy Tang](https://github.com/htang10)
 - [Danial Daneshfar](https://github.com/Dandazine)
 - [Steffi Noynay](https://github.com/ellenoynay)
 - [Munhib Shahum](https://github.com/munhib056)
-
 
 ## 🌟 Acknowledgements
 
