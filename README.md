@@ -21,7 +21,7 @@
 Whispers of the Biomes is an immersive web experience that lets users explore five unique biomes - Forest, Mesa, Caldera, Marine, and Tundra.
 Each biome features ambient sound, interactive elements, and short descriptive content designed to create a calm, engaging learning environment.
 
-This project is built using HTML, CSS, and JavaScript (no external libraries/frameworks).
+This project is built using HTML, CSS, JavaScript and Three.js.
 
 ## 🖥️ Demo
 
